@@ -1,0 +1,31 @@
+header {
+	display: flex;
+	flex-direction: row;
+}
+
+.logo {
+	width: 80px;
+	margin-top: 12px;
+	margin-right: 16px;
+	margin-bottom: 12px;
+}
+
+.navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.navbar__links {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 16px;
+}
+
+.navbar__link {
+	color: #000000;
+	text-decoration: none;
+}

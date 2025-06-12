@@ -1,11 +1,26 @@
+import clsx from 'clsx';
+import s from './header.module.scss';
+import { Link } from 'react-router-dom';
+import logo from '../../images/logo.svg';
+
 function Header() {
 	return (
 		<>
 			<header>
-				<nav className=''>
-					<div className=''>
-						<img src='public/image/logo.png' alt='logo' />
+				<img src={logo} alt='logo' className={clsx(s.logo)} />
+				<nav className={clsx(s.navbar)}>
+					<div className={clsx(s.navbar__links)}>
+						<Link to='/' className={clsx(s.navbar__link)}>
+							Список уведомлений
+						</Link>
+						<Link to='/construction' className={clsx(s.navbar__link)}>
+							Добавить уведомление
+						</Link>
+						<Link to='/gallery' className={clsx(s.navbar__link)}>
+							Галерея изображений
+						</Link>
 					</div>
+					<span className={clsx(s.username)}>Пользователь: IE\ValeevGV</span>
 				</nav>
 			</header>
 		</>
