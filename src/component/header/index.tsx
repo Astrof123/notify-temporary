@@ -13,9 +13,6 @@ function Header() {
 						<Link to='/' className={clsx(s.navbar__link)}>
 							Список уведомлений
 						</Link>
-						<Link to='/construction' className={clsx(s.navbar__link)}>
-							Добавить уведомление
-						</Link>
 						<Link to='/gallery' className={clsx(s.navbar__link)}>
 							Галерея изображений
 						</Link>

@@ -1,0 +1,75 @@
+.notifications-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.notifications__button-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.notifications__button-extra {
+	width: 10%;
+}
+
+.notifications {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 24px;
+	background-color: #f3f4f4;
+	border-radius: 16px;
+}
+
+.notifications table {
+	width: 100%;
+}
+
+.notifications th {
+	padding: 16px 24px;
+	color: #8e8e8e;
+	font-weight: 300;
+	font-style: normal;
+	text-align: left;
+	user-select: none;
+}
+
+.notifications td {
+	height: 100%;
+	padding: 16px 24px;
+	border-top: 1px solid #b7b7b7;
+}
+
+.notifications tr:hover {
+	background-color: #ffffff;
+}
+
+.used {
+	color: #00504e;
+}
+
+.not-used {
+	color: #f04923;
+}
+
+.edit,
+.remove {
+	width: 32px;
+	padding: 8px;
+	cursor: pointer;
+}
+
+.edit:hover,
+.remove:hover {
+	background-color: #ededed;
+	border-radius: 8px;
+}
+
+.notification-functions {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	gap: 12px;
+}

@@ -1,11 +1,14 @@
 import Header from '../../component/header';
+import NotificationList from '../../component/notification-list';
+import Search from '../../component/search';
 
 function Main() {
 	return (
-		<>
+		<div>
 			<Header />
-			<h1>Всем ку</h1>
-		</>
+			<Search />
+			<NotificationList />
+		</div>
 	);
 }
 

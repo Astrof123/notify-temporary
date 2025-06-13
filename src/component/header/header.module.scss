@@ -1,12 +1,13 @@
 header {
 	display: flex;
 	flex-direction: row;
+	margin-bottom: 24px;
 }
 
 .logo {
 	width: 80px;
 	margin-top: 12px;
-	margin-right: 16px;
+	margin-right: 24px;
 	margin-bottom: 12px;
 }
 
@@ -22,7 +23,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	gap: 16px;
+	gap: 24px;
 }
 
 .navbar__link {
