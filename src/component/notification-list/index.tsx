@@ -8,14 +8,6 @@ import Switch from '../switch/index';
 function NotificationList() {
 	return (
 		<div className={clsx(s['notifications-wrapper'])}>
-			{/* <div className={clsx(s['notifications__button-wrapper'])}>
-				<div className={clsx(s['notifications__button-extra'])}></div>
-				<button className={clsx('button_primary')}>
-					Добавить уведомление
-					<img className={clsx('plus-icon')} src={plus} alt='plus' />
-				</button>
-			</div> */}
-
 			<div className={clsx(s.notifications)}>
 				<table>
 					<thead>

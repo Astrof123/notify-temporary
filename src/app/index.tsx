@@ -1,6 +1,7 @@
 import { Main } from '../pages';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Gallery from '../pages/gallery';
+import NotifyPage from '../pages/notification';
 
 export const App = () => {
 	const location = useLocation();
@@ -10,6 +11,7 @@ export const App = () => {
 		<Routes location={state?.backgroundLocation || location}>
 			<Route path='/' element={<Main />} />
 			<Route path='/gallery' element={<Gallery />} />
+			<Route path='/add-notify' element={<NotifyPage />} />
 		</Routes>
 	);
 };

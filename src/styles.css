@@ -35,3 +35,7 @@ button {
 .plus-icon {
 	width: 22px;
 }
+
+a.no-link {
+	text-decoration: none;
+}
