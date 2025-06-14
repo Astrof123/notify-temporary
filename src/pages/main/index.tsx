@@ -14,10 +14,12 @@ function Main() {
 				<div className={clsx(s['search-extra-container'])}></div>
 				<Search />
 				<div className={clsx(s['add-notification-wrapper'])}>
-					<button className={clsx('button_primary')}>
-						Добавить уведомление
-						<img className={clsx('plus-icon')} src={plus} alt='plus' />
-					</button>
+					<a className={clsx('no-link')} href='/add-notify'>
+						<button className={clsx('button_primary')}>
+							Добавить уведомление
+							<img className={clsx('plus-icon')} src={plus} alt='plus' />
+						</button>
+					</a>
 				</div>
 			</div>
 

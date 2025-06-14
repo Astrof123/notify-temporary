@@ -1,0 +1,41 @@
+.input-wrapper {
+	display: flex;
+	flex-direction: column;
+	row-gap: 8px;
+	width: 100%;
+}
+
+.input-label {
+	display: flex;
+	column-gap: 2px;
+}
+
+.input-label > .required {
+	color: red;
+}
+
+.input-wrapper > input {
+	box-sizing: border-box;
+	width: 100%;
+	height: 50px;
+	padding: 16px;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: inherit;
+	font-style: normal;
+	border: 1px solid #a7a9ac;
+	border-radius: 16px;
+	transition-duration: 0.3s;
+}
+
+.input-wrapper > input:hover,
+.input-wrapper > input:focus {
+	border: 1px solid black;
+	outline: 0;
+}
+
+.counter-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+}
