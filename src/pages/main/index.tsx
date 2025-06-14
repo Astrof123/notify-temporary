@@ -1,14 +1,28 @@
 import Header from '../../component/header';
 import NotificationList from '../../component/notification-list';
 import Search from '../../component/search';
+import '../../styles.css';
+import plus from '../../images/plus.svg';
+import clsx from 'clsx';
+import s from './main.module.scss';
 
 function Main() {
 	return (
-		<div>
+		<>
 			<Header />
-			<Search />
+			<div className={clsx(s['search-wrapper'])}>
+				<div className={clsx(s['search-extra-container'])}></div>
+				<Search />
+				<div className={clsx(s['add-notification-wrapper'])}>
+					<button className={clsx('button_primary')}>
+						Добавить уведомление
+						<img className={clsx('plus-icon')} src={plus} alt='plus' />
+					</button>
+				</div>
+			</div>
+
 			<NotificationList />
-		</div>
+		</>
 	);
 }
 

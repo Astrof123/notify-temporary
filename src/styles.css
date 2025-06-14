@@ -1,36 +1,37 @@
 .container {
-    width: 100%;
-    max-width: 80%;
-    margin: 0 auto;
-    font-family: "Geologica", "Helvetica Neue", "Arial", sans-serif;
+	width: 100%;
+	max-width: 80%;
+	margin: 0 auto;
+	font-family: 'Geologica', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 18px;
-    font-weight: 300;
-    font-size: 16px;
-    font-family: inherit;
-    font-style: normal;
-    border-radius: 16px;
-    cursor: pointer;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 18px;
+	font-weight: 300;
+	font-size: 16px;
+	font-family: inherit;
+	font-style: normal;
+	border-radius: 16px;
+	cursor: pointer;
+	user-select: none;
 }
 
 .button_primary {
-    color: #ffffff;
-    background-color: #F04923;
-    border: none;
+	color: #ffffff;
+	background-color: #f04923;
+	border: none;
 }
 
 .button_secondary {
-    color: #F04923;
-    background-color: #ffffff;
-    border: 1px solid #F04923;
+	color: #f04923;
+	background-color: #ffffff;
+	border: 1px solid #f04923;
 }
 
 .plus-icon {
-    width: 22px;
+	width: 22px;
 }

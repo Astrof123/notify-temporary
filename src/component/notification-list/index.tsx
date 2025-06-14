@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import s from './notification-list.module.scss';
 import '../../styles.css';
-import plus from '../../images/plus.svg';
 import pencil from '../../images/pencil.png';
 import rubbish from '../../images/rubbish.png';
 import Switch from '../switch/index';
@@ -9,13 +8,13 @@ import Switch from '../switch/index';
 function NotificationList() {
 	return (
 		<div className={clsx(s['notifications-wrapper'])}>
-			<div className={clsx(s['notifications__button-wrapper'])}>
+			{/* <div className={clsx(s['notifications__button-wrapper'])}>
 				<div className={clsx(s['notifications__button-extra'])}></div>
 				<button className={clsx('button_primary')}>
 					Добавить уведомление
 					<img className={clsx('plus-icon')} src={plus} alt='plus' />
 				</button>
-			</div>
+			</div> */}
 
 			<div className={clsx(s.notifications)}>
 				<table>
@@ -37,7 +36,7 @@ function NotificationList() {
 							</td>
 							<td className={clsx(s.used)}>Используется</td>
 							<td>
-								<div className={clsx(s['notification-functions'])}>
+								<div className={clsx(s['notification__functions'])}>
 									<Switch />
 									<img
 										className={clsx(s.edit)}
@@ -62,7 +61,7 @@ function NotificationList() {
 							</td>
 							<td className={clsx(s['not-used'])}>Не используется</td>
 							<td>
-								<div className={clsx(s['notification-functions'])}>
+								<div className={clsx(s['notification__functions'])}>
 									<Switch />
 									<img
 										className={clsx(s.edit)}
