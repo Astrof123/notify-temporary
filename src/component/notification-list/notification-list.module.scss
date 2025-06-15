@@ -55,7 +55,7 @@
 
 .edit,
 .remove {
-	width: 27px;
+	width: 24px;
 	padding: 8px;
 	cursor: pointer;
 }
@@ -69,7 +69,6 @@
 .notification__functions {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
 	align-items: center;
-	gap: 12px;
+	gap: 20px;
 }

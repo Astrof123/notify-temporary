@@ -1,6 +1,5 @@
-import { Main } from '../pages';
+import { Main, Gallery } from '../pages';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Gallery from '../pages/gallery';
 import NotifyPage from '../pages/notification';
 
 export const App = () => {

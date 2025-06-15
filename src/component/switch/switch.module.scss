@@ -1,8 +1,8 @@
 .switch {
 	position: relative;
 	display: inline-block;
-	width: 54px;
-	height: 30.6px;
+	width: 48.6px;
+	height: 27.54px;
 }
 
 .switch input {
@@ -23,8 +23,8 @@
 	position: absolute;
 	bottom: 4px;
 	left: 4px;
-	width: 23.4px;
-	height: 23.4px;
+	width: 21.06px;
+	height: 21.06px;
 	background-color: white;
 	transition: 0.4s;
 	content: '';
@@ -39,7 +39,7 @@ input:focus + .slider {
 }
 
 input:checked + .slider::before {
-	transform: translateX(26px);
+	transform: translateX(21px);
 }
 
 .slider.round {

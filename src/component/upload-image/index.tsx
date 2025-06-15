@@ -7,7 +7,11 @@ import ImageItem from '../image-item';
 import Modal from '../modal';
 import EditImage from '../edit-image';
 
-function UploadImage() {
+interface UploadImageProps {
+	onOpenFullImage: (imageUrlParam: string) => void;
+}
+
+const UploadImage = ({ onOpenFullImage }: UploadImageProps) => {
 	const [isUploadingVisible, setIsUploadingVisible] = useState<boolean>(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [fileName, setFileName] = useState<string | null>(null);
@@ -31,6 +35,7 @@ function UploadImage() {
 			};
 			reader.readAsDataURL(file);
 			setIsModalOpen(true);
+			event.target.value = '';
 		} else {
 			setImageUrl(null);
 		}
@@ -45,6 +50,11 @@ function UploadImage() {
 		setImageUrl(null);
 		setResizedImageUrl(null);
 		setFileName(null);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setImageUrl(null);
 	};
 
 	return (
@@ -71,6 +81,7 @@ function UploadImage() {
 							imageUrl={resizedImageUrl}
 							imageName={fileName}
 							onRemove={handleRemoveImage}
+							onOpenFullImage={onOpenFullImage}
 						/>
 						<div className={clsx(s['upload-image__send'])}>
 							<button className={clsx('button_primary')}>
@@ -81,10 +92,14 @@ function UploadImage() {
 				) : (
 					<div className={clsx(s['upload-image__container'])}>
 						<span className={clsx(s['upload-image__text'])}>
-							Выберите файл для загрузки изображения
-							<span className={clsx(s['upload-image__text-icon'])}>
-								&#128247;
-							</span>
+							<div>
+								Выберите файл для загрузки изображения
+								<span className={clsx(s['upload-image__text-icon'])}>
+									&#128247;
+								</span>
+							</div>
+							<br></br>
+							Оно автоматически приведется к размеру 500x200
 						</span>
 						<input
 							className={clsx(s['upload-image__input'])}
@@ -97,12 +112,12 @@ function UploadImage() {
 			</div>
 
 			{imageUrl && (
-				<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+				<Modal isOpen={isModalOpen} onClose={handleCloseModal}>
 					<EditImage imageSrc={imageUrl} onImageUpdate={handleImageUpdate} />
 				</Modal>
 			)}
 		</>
 	);
-}
+};
 
 export default UploadImage;

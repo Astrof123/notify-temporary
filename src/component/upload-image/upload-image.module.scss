@@ -37,6 +37,9 @@
 }
 
 .upload-image__text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	color: gray;
 	font-size: 18px;
 }

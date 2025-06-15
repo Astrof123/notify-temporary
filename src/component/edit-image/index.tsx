@@ -23,9 +23,12 @@ const EditImage = ({ imageSrc, onImageUpdate }: EditImageProps) => {
 	const [croppedAreaPixels, setCroppedAreaPixels] =
 		useState<CroppedArea | null>(null);
 
+	const [size, setSize] = useState<string>('');
+
 	const onCropComplete = useCallback(
 		(croppedArea: Area, croppedAreaPixels: Area) => {
 			setCroppedAreaPixels(croppedAreaPixels as CroppedArea);
+			setSize(`${croppedAreaPixels.width}x${croppedAreaPixels.height}`);
 		},
 		[]
 	);
@@ -117,6 +120,7 @@ const EditImage = ({ imageSrc, onImageUpdate }: EditImageProps) => {
 				</div>
 			</div>
 			<div className={clsx(s['end-editing-wrapper'])}>
+				<span>Размер выделенной области: {size}</span>
 				<button
 					className={clsx('button_primary')}
 					onClick={handleResize}
