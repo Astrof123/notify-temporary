@@ -2,16 +2,19 @@ import clsx from 'clsx';
 import s from './image-item.module.scss';
 import remove from '../../images/remove.png';
 
-const ImageItem = ({
-	imageUrl,
-	imageName,
-}: {
+interface ImageItemProps {
 	imageUrl: string;
 	imageName: string;
-}) => {
+	onRemove?: () => void;
+}
+
+const ImageItem = ({ imageUrl, imageName, onRemove }: ImageItemProps) => {
 	return (
 		<div className={clsx(s['image-item'])}>
-			<img src={remove} alt='Крестик' className={clsx(s['image-item__exit'])} />
+			<button onClick={onRemove} className={clsx(s['image-item__exit'])}>
+				<img src={remove} alt='Крестик' />
+			</button>
+
 			<img
 				src={imageUrl}
 				alt='Картинка'

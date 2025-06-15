@@ -34,5 +34,6 @@ module.exports = {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'prettier/prettier': ['error', { endOfLine: 'auto' }],
 		'jsx-a11y/label-has-associated-control': 'off', //
+		'jsx-a11y/no-static-element-interactions': 'off', //
 	},
 };

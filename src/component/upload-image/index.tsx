@@ -4,11 +4,15 @@ import plus from '../../images/plus.svg';
 import '../../styles.css';
 import { ChangeEvent, useState } from 'react';
 import ImageItem from '../image-item';
+import Modal from '../modal';
+import EditImage from '../edit-image';
 
 function UploadImage() {
 	const [isUploadingVisible, setIsUploadingVisible] = useState<boolean>(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [fileName, setFileName] = useState<string | null>(null);
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [resizedImageUrl, setResizedImageUrl] = useState<string | null>(null);
 
 	const toggleUploadingVisible = () => {
 		setIsUploadingVisible(!isUploadingVisible);
@@ -26,9 +30,21 @@ function UploadImage() {
 				setImageUrl(reader.result as string);
 			};
 			reader.readAsDataURL(file);
+			setIsModalOpen(true);
 		} else {
 			setImageUrl(null);
 		}
+	};
+
+	const handleImageUpdate = (newImageUrl: string) => {
+		setResizedImageUrl(newImageUrl);
+		setIsModalOpen(false);
+	};
+
+	const handleRemoveImage = () => {
+		setImageUrl(null);
+		setResizedImageUrl(null);
+		setFileName(null);
 	};
 
 	return (
@@ -46,12 +62,16 @@ function UploadImage() {
 				className={clsx(s['upload-image'], {
 					[s.visible]: isUploadingVisible,
 				})}>
-				{imageUrl && fileName ? (
+				{resizedImageUrl && fileName ? (
 					<div className={clsx(s['upload-image__preview'])}>
 						<span className={clsx(s['upload-image__preview-text'])}>
 							Выбранное изображение
 						</span>
-						<ImageItem imageUrl={imageUrl} imageName={fileName} />
+						<ImageItem
+							imageUrl={resizedImageUrl}
+							imageName={fileName}
+							onRemove={handleRemoveImage}
+						/>
 						<div className={clsx(s['upload-image__send'])}>
 							<button className={clsx('button_primary')}>
 								Отправить изображение
@@ -61,7 +81,7 @@ function UploadImage() {
 				) : (
 					<div className={clsx(s['upload-image__container'])}>
 						<span className={clsx(s['upload-image__text'])}>
-							Выберите файл для загрузки изображения 500x200
+							Выберите файл для загрузки изображения
 							<span className={clsx(s['upload-image__text-icon'])}>
 								&#128247;
 							</span>
@@ -75,6 +95,12 @@ function UploadImage() {
 					</div>
 				)}
 			</div>
+
+			{imageUrl && (
+				<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+					<EditImage imageSrc={imageUrl} onImageUpdate={handleImageUpdate} />
+				</Modal>
+			)}
 		</>
 	);
 }
