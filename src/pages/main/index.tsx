@@ -12,7 +12,7 @@ function Main() {
 			<Header />
 			<div className={clsx(s['search-wrapper'])}>
 				<div className={clsx(s['search-extra-container'])}>
-					<Search />
+					<Search placeholder={'Поиск уведомления'} />
 				</div>
 				<a className={clsx('no-link')} href='/add-notify'>
 					<button className={clsx('button_primary')}>

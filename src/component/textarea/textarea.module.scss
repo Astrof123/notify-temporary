@@ -1,42 +1,21 @@
-.textarea-wrapper {
-	display: flex;
-	flex-direction: column;
-	row-gap: 8px;
-	width: 100%;
-}
-
-.textarea-label {
-	display: flex;
-	column-gap: 2px;
-}
-
-.textarea-label > .required {
-	color: red;
-}
-
-.textarea-wrapper > textarea {
-	box-sizing: border-box;
+textarea.textarea {
 	width: 100%;
 	min-height: 80px;
 	max-height: 160px;
-	padding: 16px 16px 0;
-	overflow-y: hidden;
+	box-sizing: border-box;
+	padding: 8px 16px;
+	resize: vertical;
+
 	font-weight: 300;
 	font-size: 16px;
 	font-family: inherit;
 	font-style: normal;
 	border: 1px solid #a7a9ac;
-	border-radius: 16px;
-	resize: vertical;
+	border-top-left-radius: 16px;
+	border-bottom-left-radius: 16px;
 }
 
-.textarea-wrapper > textarea:focus {
+textarea.textarea:focus {
 	border: 1px solid black;
 	outline: 0;
-}
-
-.counter-wrapper {
-	display: flex;
-	justify-content: flex-end;
-	width: 100%;
 }

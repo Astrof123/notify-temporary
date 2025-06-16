@@ -1,0 +1,43 @@
+.tree-section {
+	width: 100%;
+	display: flex;
+	column-gap: 20px;
+}
+
+.tree-section > div {
+	width: 50%;
+
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}
+
+.tree-container > .title {
+	display: flex;
+}
+
+.list-box {
+	width: 100%;
+	height: 400px;
+	box-sizing: border-box;
+	padding: 20px;
+	overflow-y: hidden;
+
+	display: flex;
+	flex-direction: column;
+	row-gap: 24px;
+
+	border-radius: 16px;
+	border: 1px solid #a7a9ac;
+	background-color: white;
+}
+
+.list-box > .__content {
+	width: 100%;
+	box-sizing: border-box;
+	overflow-y: auto;
+
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}

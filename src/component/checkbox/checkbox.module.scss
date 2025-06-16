@@ -1,0 +1,10 @@
+.checkbox {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.checkbox > svg {
+	box-sizing: border-box;
+}
