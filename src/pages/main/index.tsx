@@ -11,16 +11,15 @@ function Main() {
 		<>
 			<Header />
 			<div className={clsx(s['search-wrapper'])}>
-				<div className={clsx(s['search-extra-container'])}></div>
-				<Search />
-				<div className={clsx(s['add-notification-wrapper'])}>
-					<a className={clsx('no-link')} href='/add-notify'>
-						<button className={clsx('button_primary')}>
-							Добавить уведомление
-							<img className={clsx('plus-icon')} src={plus} alt='plus' />
-						</button>
-					</a>
+				<div className={clsx(s['search-extra-container'])}>
+					<Search />
 				</div>
+				<a className={clsx('no-link')} href='/add-notify'>
+					<button className={clsx('button_primary')}>
+						Добавить уведомление
+						<img className={clsx('plus-icon')} src={plus} alt='plus' />
+					</button>
+				</a>
 			</div>
 
 			<NotificationList />
