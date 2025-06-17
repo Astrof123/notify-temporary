@@ -1,0 +1,31 @@
+.used {
+	color: #00504e;
+}
+
+.not-used {
+	color: #f04923;
+}
+
+.edit,
+.remove {
+	width: 24px;
+	padding: 8px;
+	cursor: pointer;
+}
+
+.edit:hover,
+.remove:hover {
+	background-color: #ededed;
+	border-radius: 8px;
+}
+
+.notification__functions {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 20px;
+}
+
+.notification-row:hover {
+	background-color: #ffffff;
+}

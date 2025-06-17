@@ -5,14 +5,21 @@ import '../../styles.css';
 import plus from '../../images/plus.svg';
 import clsx from 'clsx';
 import s from './main.module.scss';
+import { useCallback, useState } from 'react';
 
 function Main() {
+	const [searchQuery, setSearchQuery] = useState('');
+
+	const handleSearch = useCallback((query: string) => {
+		setSearchQuery(query);
+	}, []);
+
 	return (
 		<>
 			<Header />
 			<div className={clsx(s['search-wrapper'])}>
 				<div className={clsx(s['search-extra-container'])}>
-					<Search />
+					<Search onSearch={handleSearch} />
 				</div>
 				<a className={clsx('no-link')} href='/add-notify'>
 					<button className={clsx('button_primary')}>
@@ -22,7 +29,7 @@ function Main() {
 				</a>
 			</div>
 
-			<NotificationList />
+			<NotificationList searchQuery={searchQuery} />
 		</>
 	);
 }

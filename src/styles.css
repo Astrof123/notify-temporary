@@ -32,6 +32,12 @@ button {
 	border: 1px solid #f04923;
 }
 
+.button_empty {
+	padding: 0;
+	background-color: transparent;
+	border: none;
+}
+
 .plus-icon {
 	width: 22px;
 }

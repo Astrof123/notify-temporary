@@ -11,6 +11,7 @@ export const App = () => {
 			<Route path='/' element={<Main />} />
 			<Route path='/gallery' element={<Gallery />} />
 			<Route path='/add-notify' element={<NotifyPage />} />
+			<Route path='/change-notify' element={<NotifyPage />} />
 		</Routes>
 	);
 };
