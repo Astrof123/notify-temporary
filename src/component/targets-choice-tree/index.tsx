@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import s from './targets-choice-tree.module.scss';
 import '../../styles.css';
-import RequiredFormSymbol from '../required-form-symbol';
 import Search from '../search';
 import TargetsChoiceLine from '../targets-choice-line';
-import { Company } from '../../models/Company';
-import { Department } from '../../models/Department';
-import { Person } from '../../models/Person';
-import { BaseEntity } from '../../models/BaseEntity';
+import { Company } from '../../models/notification-targets/Company';
+import { Department } from '../../models/notification-targets/Department';
+import { Person } from '../../models/notification-targets/Person';
+import { BaseEntity } from '../../models/notification-targets/BaseEntity';
 import { useCallback, useState } from 'react';
+import FormSectionTitle from '../form-section-title';
 
 interface Targets {
 	[key: number]: BaseEntity;
@@ -84,36 +84,35 @@ const TargetsChoiceTree = () => {
 	return (
 		<div className={clsx(s['tree-section'])}>
 			<div className={clsx(s['tree-container'])}>
-				<div className={clsx(s['title'])}>
-					<span>Выберите компании, департаменты, отделы или сотрудника</span>
-					<RequiredFormSymbol />
-				</div>
-				<div className={clsx(s['list-box'])}>
+				<FormSectionTitle
+					title={'Выберите компании, департаменты, отделы или сотрудника'}
+					required={true}
+				/>
+				<div className={clsx('form-section', s['list-box'])}>
 					<Search
 						placeholder={'Название компании'}
 						isRealTime={true}
 						onValueChanged={setSearchFilter}
 					/>
-					<div className={clsx(s['content'])}>
+					<div className={clsx('content')}>
 						{companies.map((company, index) => (
 							<>
-								{company.getName().includes(searchFilter) && (
-									<TargetsChoiceLine
-										key={index}
-										data={company}
-										disabled={false}
-										onChoose={handleTargetChoose}
-									/>
-								)}
+								<TargetsChoiceLine
+									key={index}
+									data={company}
+									disabled={false}
+									hidden={!company.getName().includes(searchFilter)}
+									onChoose={handleTargetChoose}
+								/>
 							</>
 						))}
 					</div>
 				</div>
 			</div>
 			<div className={clsx(s['targets-container'])}>
-				<span>Выбранные объекты</span>
-				<div className={clsx(s['list-box'])}>
-					<div className={clsx(s['content'])}>
+				<FormSectionTitle title={'Выбранные объекты'} />
+				<div className={clsx('form-section', s['list-box'])}>
+					<div className={clsx('content')}>
 						{Object.entries(targets).map(([id, target]) => (
 							<>{target.chosen && <div key={id}>{target.getName()}</div>}</>
 						))}

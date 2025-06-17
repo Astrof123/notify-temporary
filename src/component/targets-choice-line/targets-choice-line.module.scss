@@ -5,6 +5,10 @@
 	font-weight: 300;
 }
 
+.target-line-container.hidden {
+	display: none;
+}
+
 .parent-box {
 	display: flex;
 	align-items: center;

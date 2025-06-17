@@ -4,6 +4,7 @@ import '../../styles.css';
 import TargetsChoiceTree from '../targets-choice-tree';
 import FormInput from '../form-input';
 import FormTextarea from '../form-textarea';
+import NotificationTimeSettings from '../notification-time-settings';
 
 interface NotificationFormProps {
 	notificationData?: object;
@@ -39,6 +40,9 @@ const NotificationForm = (props: NotificationFormProps) => {
 				</div>
 				<div className={clsx(s['row'])}>
 					<TargetsChoiceTree />
+				</div>
+				<div className={clsx(s['row'])}>
+					<NotificationTimeSettings />
 				</div>
 			</div>
 		</div>

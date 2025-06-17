@@ -45,3 +45,25 @@ button {
 a.no-link {
 	text-decoration: none;
 }
+
+.form-section {
+	display: flex;
+	flex-direction: column;
+	row-gap: 24px;
+	box-sizing: border-box;
+	padding: 20px;
+	overflow: hidden hidden;
+	background-color: white;
+	border: 1px solid #a7a9ac;
+	border-radius: 16px;
+	resize: vertical;
+}
+
+.form-section > .content {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	box-sizing: border-box;
+	width: 100%;
+	overflow: hidden auto;
+}

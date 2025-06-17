@@ -11,31 +11,8 @@
 	width: 50%;
 }
 
-.tree-container > .title {
-	display: flex;
-}
-
 .list-box {
-	display: flex;
-	flex-direction: column;
-	row-gap: 24px;
-	box-sizing: border-box;
 	width: 100%;
 	min-height: 300px;
 	max-height: 800px;
-	padding: 20px;
-	overflow-y: hidden;
-	background-color: white;
-	border: 1px solid #a7a9ac;
-	border-radius: 16px;
-	resize: vertical;
-}
-
-.list-box > .content {
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
-	box-sizing: border-box;
-	width: 100%;
-	overflow-y: auto;
 }

@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import s from './form-input.module.scss';
 import '../../styles.css';
 import { useState } from 'react';
-import RequiredFormSymbol from '../required-form-symbol';
 import Input from '../input';
+import FormSectionTitle from '../form-section-title';
 
 interface FormInputProps {
 	name?: string;
@@ -27,10 +27,7 @@ const FormInput = (props: FormInputProps) => {
 
 	return (
 		<label className={clsx(s['input-wrapper'])}>
-			<div className={clsx(s['input-label'])}>
-				<span>{props.label}</span>
-				{props.required && <RequiredFormSymbol />}
-			</div>
+			<FormSectionTitle title={props.label} required={props.required} />
 			<Input
 				name={props.name}
 				value={value}
