@@ -1,42 +1,51 @@
 import clsx from 'clsx';
 import s from './search.module.scss';
 import '../../styles.css';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import Input from '../input';
 
 interface SearchProps {
-	onSearch: (query: string) => void;
+	placeholder?: string;
+	isRealTime?: boolean;
+	onValueChanged?: (arg: string) => void;
+	onSubmit?: (query: string) => void;
 }
 
-const Search = ({ onSearch }: SearchProps) => {
-	const [query, setQuery] = useState('');
-
-	const handleInputChange = useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>) => {
-			setQuery(e.target.value);
-		},
-		[]
-	);
+function Search(props: SearchProps) {
+	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+		if (props.onValueChanged) {
+			props.onValueChanged(event.target.value);
+		}
+	}
 
 	const handleSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			onSearch(query);
+			const form = e.target as HTMLFormElement;
+			const searchElement = (form.elements as any)[
+				'search'
+			] as HTMLInputElement;
+
+			if (searchElement) {
+				props.onSubmit?.(searchElement.value);
+			}
 		},
-		[onSearch, query]
+		[props.onSubmit]
 	);
 
 	return (
-		<form onSubmit={handleSubmit} className={clsx(s.search)}>
-			<input
-				type='search'
-				className={clsx(s.search__input)}
-				placeholder='Поиск...'
-				value={query}
-				onChange={handleInputChange}
+		<form onSubmit={handleSubmit} className={clsx(s['search-wrapper'])}>
+			<Input
+				type={'search'}
+				placeholder={props.placeholder}
+				onChange={handleChange}
+				name={'search'}
 			/>
-			<button className={clsx('button_primary')}>Поиск</button>
+			{!props.isRealTime && (
+				<button className={clsx('button_primary')}>Поиск</button>
+			)}
 		</form>
 	);
-};
+}
 
 export default Search;

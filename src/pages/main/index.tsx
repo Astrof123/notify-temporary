@@ -19,7 +19,7 @@ function Main() {
 			<Header />
 			<div className={clsx(s['search-wrapper'])}>
 				<div className={clsx(s['search-extra-container'])}>
-					<Search onSearch={handleSearch} />
+					<Search placeholder={'Поиск уведомления'} onSubmit={handleSearch} />
 				</div>
 				<a className={clsx('no-link')} href='/add-notify'>
 					<button className={clsx('button_primary')}>

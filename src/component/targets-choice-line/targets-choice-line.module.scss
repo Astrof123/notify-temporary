@@ -1,0 +1,50 @@
+.target-line-container {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	font-weight: 300;
+}
+
+.parent-box {
+	display: flex;
+	align-items: center;
+	column-gap: 8px;
+}
+
+.marker {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 24px;
+	height: 24px;
+	font-size: 18px;
+	border-radius: 20px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.marker:hover {
+	background-color: #e2e2e2;
+}
+
+.parent-box > span.title:not(.disabled) {
+	cursor: pointer;
+}
+
+.children-box {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	box-sizing: border-box;
+	padding-left: 60px;
+}
+
+.children-box.hidden {
+	display: none;
+}
+
+span.label {
+	color: #646464;
+	font-size: 14px;
+	font-style: italic;
+}

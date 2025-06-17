@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import s from './notification-form.module.scss';
 import '../../styles.css';
-import Input from '../input';
-import Textarea from '../textarea';
+import TargetsChoiceTree from '../targets-choice-tree';
+import FormInput from '../form-input';
+import FormTextarea from '../form-textarea';
 
 interface NotificationFormProps {
 	notificationData?: object;
@@ -17,7 +18,7 @@ const NotificationForm = (props: NotificationFormProps) => {
 			<div className={clsx(s['form'])}>
 				<div className={clsx(s['row'])}>
 					<div>
-						<Input
+						<FormInput
 							name={'title'}
 							label={'Заголовок уведомдения'}
 							type={'text'}
@@ -27,7 +28,7 @@ const NotificationForm = (props: NotificationFormProps) => {
 						/>
 					</div>
 					<div>
-						<Textarea
+						<FormTextarea
 							name={'description'}
 							label={'Описание уведомления'}
 							placeholder={'Введите описание'}
@@ -35,6 +36,9 @@ const NotificationForm = (props: NotificationFormProps) => {
 							required={true}
 						/>
 					</div>
+				</div>
+				<div className={clsx(s['row'])}>
+					<TargetsChoiceTree />
 				</div>
 			</div>
 		</div>
