@@ -29,6 +29,10 @@
 	background-color: #e2e2e2;
 }
 
+.parent-box > span.title:not(.disabled) {
+	cursor: pointer;
+}
+
 .children-box {
 	box-sizing: border-box;
 	padding-left: 60px;
@@ -36,4 +40,14 @@
 	display: flex;
 	flex-direction: column;
 	row-gap: 10px;
+}
+
+.children-box.hidden {
+	display: none;
+}
+
+span.label {
+	font-size: 14px;
+	font-style: italic;
+	color: #646464;
 }

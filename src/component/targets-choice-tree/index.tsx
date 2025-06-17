@@ -7,6 +7,12 @@ import TargetsChoiceLine from '../targets-choice-line';
 import { Company } from '../../models/Company';
 import { Department } from '../../models/Department';
 import { Person } from '../../models/Person';
+import { BaseEntity } from '../../models/BaseEntity';
+import { useCallback, useState } from 'react';
+
+interface Targets {
+	[key: number]: BaseEntity;
+}
 
 const TargetsChoiceTree = () => {
 	const companies = [
@@ -18,48 +24,62 @@ const TargetsChoiceTree = () => {
 					2,
 					'Главная страница',
 					[],
-					[new Person(1, 'Василиса', 'Леонидовна', 'Байрачная')]
+					[new Person(3, 'Василиса', 'Леонидовна', 'Байрачная')]
 				),
-				new Department(2, 'О проекте'),
+				new Department(4, 'О проекте'),
 			],
-			[new Person(1, 'Иван', 'Иваныч', 'Васькин')]
+			[new Person(5, 'Иван', 'Иваныч', 'Васькин')]
 		),
-		new Company(1, 'Рога и копыта'),
+		new Company(6, 'Рога и копыта'),
 		new Company(
-			1,
+			7,
 			'Shelby Limited',
 			[
 				new Department(
-					1,
+					8,
 					'Главный офис',
 					[],
 					[
-						new Person(1, 'Томас', 'Томасович', 'Шелби'),
-						new Person(1, 'Джонибой', 'Томасович', 'Шелби'),
-						new Person(1, 'Артур', 'Томасович', 'Шелби'),
-						new Person(1, 'Дэни', 'Томасович', 'Шелби'),
+						new Person(9, 'Томас', 'Томасович', 'Шелби'),
+						new Person(10, 'Джонибой', 'Томасович', 'Шелби'),
+						new Person(11, 'Артур', 'Томасович', 'Шелби'),
+						new Person(12, 'Дэни', 'Томасович', 'Шелби'),
 					]
 				),
 				new Department(
-					1,
+					13,
 					'Склад',
-					[new Department(1, 'Хранилище')],
-					[new Person(1, 'Зинаида', 'Дмитриевна', 'Бах')]
+					[new Department(14, 'Хранилище')],
+					[new Person(15, 'Зинаида', 'Дмитриевна', 'Бах')]
 				),
 				new Department(
-					1,
+					16,
 					'Двор',
 					[],
-					[new Person(1, 'Захар', 'Петрович', 'пЕтров')]
+					[new Person(17, 'Захар', 'Петрович', 'пЕтров')]
 				),
 			],
 			[
-				new Person(1, 'Басотёнок', 'С', 'Улицы'),
-				new Person(1, 'Брат басотёнка', 'С', 'Улицы'),
-				new Person(1, 'Кузен басотёнка', 'С', 'Улицы'),
+				new Person(18, 'Басотёнок', 'С', 'Улицы'),
+				new Person(19, 'Брат басотёнка', 'С', 'Улицы'),
+				new Person(20, 'Кузен басотёнка', 'С', 'Улицы'),
 			]
 		),
 	];
+
+	const [targets, setTargets] = useState<Targets>({});
+	const [searchFilter, setSearchFilter] = useState('');
+
+	const handleTargetChoose = useCallback(
+		(isChosen: boolean, target: BaseEntity) => {
+			target.chosen = isChosen;
+			setTargets((prev) => ({
+				...prev,
+				[target.getId()]: target,
+			}));
+		},
+		[setTargets]
+	);
 
 	return (
 		<div className={clsx(s['tree-section'])}>
@@ -69,13 +89,23 @@ const TargetsChoiceTree = () => {
 					<RequiredFormSymbol />
 				</div>
 				<div className={clsx(s['list-box'])}>
-					<Search placeholder={'Название компании'} />
+					<Search
+						placeholder={'Название компании'}
+						isRealTime={true}
+						onValueChanged={setSearchFilter}
+					/>
 					<div className={clsx(s['__content'])}>
 						{companies.map((company, index) => (
-							<TargetsChoiceLine
-                                key={index}
-                                data={company}
-                            />
+							<>
+								{company.getName().includes(searchFilter) && (
+									<TargetsChoiceLine
+										key={index}
+										data={company}
+										disabled={false}
+										onChoose={handleTargetChoose}
+									/>
+								)}
+							</>
 						))}
 					</div>
 				</div>
@@ -83,7 +113,11 @@ const TargetsChoiceTree = () => {
 			<div className={clsx(s['targets-container'])}>
 				<span>Выбранные объекты</span>
 				<div className={clsx(s['list-box'])}>
-					<div className={clsx(s['__content'])}></div>
+					<div className={clsx(s['__content'])}>
+						{Object.entries(targets).map(([id, target]) => (
+							<>{target.chosen && <div key={id}>{target.getName()}</div>}</>
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

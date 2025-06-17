@@ -1,14 +1,15 @@
 import clsx from 'clsx';
 import s from './checkbox.module.scss';
 import '../../styles.css';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 interface CheckboxProps {
 	size: number;
+	disabled: boolean;
 	onChecked?: (arg: boolean) => void;
 }
 
-const Checkbox = (props: CheckboxProps) => {
+const Checkbox = forwardRef((props: CheckboxProps, ref) => {
 	const [hover, setHover] = useState(false);
 	const [pressed, setPressed] = useState(false);
 	const [checked, setChecked] = useState(false);
@@ -17,10 +18,17 @@ const Checkbox = (props: CheckboxProps) => {
 		if (props.onChecked) props.onChecked(checked);
 	}, [checked]);
 
+	useEffect(() => {
+		if (props.disabled) {
+			setChecked(false);
+		}
+	}, [props.disabled]);
+
 	function getColor(isBg: boolean) {
 		const bts = (value: boolean) => {
 			return value.toString() as 'true' | 'false';
 		};
+		const colorDisabled = '#E7EAEE';
 		const colorDefault = '#A7A9AC';
 		const colorHover = '#F04923';
 		const colorPressed = '#DC350F';
@@ -47,27 +55,39 @@ const Checkbox = (props: CheckboxProps) => {
 				},
 			},
 		};
-		return isBg && !checked
-			? 'transparent'
-			: colorTree[bts(checked)][bts(pressed)][bts(hover)];
+		if (props.disabled) {
+			return isBg ? colorDisabled : colorDefault;
+		} else {
+			return isBg && !checked
+				? 'transparent'
+				: colorTree[bts(checked)][bts(pressed)][bts(hover)];
+		}
 	}
 
 	function handleMouseEnter() {
-		setHover(true);
+		if (!props.disabled) {
+			setHover(true);
+		}
 	}
 
 	function handleMouseLeave() {
-		setHover(false);
-		setPressed(false);
+		if (!props.disabled) {
+			setHover(false);
+			setPressed(false);
+		}
 	}
 
 	function handleMouseDown() {
-		setPressed(true);
+		if (!props.disabled) {
+			setPressed(true);
+		}
 	}
 
 	function handleMouseUp() {
-		setChecked(!checked);
-		setPressed(false);
+		if (!props.disabled) {
+			setChecked(!checked);
+			setPressed(false);
+		}
 	}
 
 	function handleKeyDown(event: React.KeyboardEvent) {
@@ -75,6 +95,10 @@ const Checkbox = (props: CheckboxProps) => {
 			handleMouseUp();
 		}
 	}
+
+	useImperativeHandle(ref, () => ({
+		forceCheck: handleMouseUp,
+	}));
 
 	const style: React.CSSProperties = {
 		width: `${props.size}px`,
@@ -86,7 +110,7 @@ const Checkbox = (props: CheckboxProps) => {
 
 	return (
 		<div
-			className={clsx(s['checkbox'])}
+			className={clsx(s['checkbox'], props.disabled && s['disabled'])}
 			style={style}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
@@ -108,6 +132,7 @@ const Checkbox = (props: CheckboxProps) => {
 			)}
 		</div>
 	);
-};
+});
 
+Checkbox.displayName = 'Checkbox';
 export default Checkbox;

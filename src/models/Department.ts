@@ -1,8 +1,11 @@
-import { BaseEntity } from './BaseEntity';
+import { BaseEntity, EntityType } from './BaseEntity';
+import { Expanding } from './Expanding';
 import { Person } from './Person';
 
-export class Department extends BaseEntity {
-	type = 'department';
+export class Department extends BaseEntity implements Expanding {
+	type = EntityType.DEPARTMENT;
+	canBeExpanded = true;
+
 	departmentId: number;
 	name: string;
 	departments: Department[];
@@ -21,7 +24,15 @@ export class Department extends BaseEntity {
 		this.persons = persons ?? [];
 	}
 
+	getId(): number {
+		return this.departmentId;
+	}
+
 	getName(): string {
 		return this.name;
+	}
+
+	hasChildren(): boolean {
+		return this.departments.length > 0 || this.persons.length > 0;
 	}
 }

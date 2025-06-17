@@ -5,6 +5,10 @@
 	cursor: pointer;
 }
 
+.checkbox.disabled {
+	cursor: inherit;
+}
+
 .checkbox > svg {
 	box-sizing: border-box;
 }

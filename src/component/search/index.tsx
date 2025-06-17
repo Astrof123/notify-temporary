@@ -5,13 +5,27 @@ import Input from '../input';
 
 interface SearchProps {
 	placeholder?: string;
+	isRealTime?: boolean;
+	onValueChanged?: (arg: string) => void;
 }
 
 function Search(props: SearchProps) {
+	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+		if (props.onValueChanged) {
+			props.onValueChanged(event.target.value);
+		}
+	}
+
 	return (
 		<div className={clsx(s['search-wrapper'])}>
-			<Input type={'search'} placeholder={props.placeholder} />
-			<button className={clsx('button_primary')}>Поиск</button>
+			<Input
+				type={'search'}
+				placeholder={props.placeholder}
+				onChange={handleChange}
+			/>
+			{!props.isRealTime && (
+				<button className={clsx('button_primary')}>Поиск</button>
+			)}
 		</div>
 	);
 }

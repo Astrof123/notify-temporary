@@ -1,22 +1,31 @@
 import clsx from 'clsx';
 import s from './targets-choice-line.module.scss';
 import '../../styles.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Checkbox from '../checkbox';
 import { Company } from '../../models/Company';
 import { Department } from '../../models/Department';
 import { Person } from '../../models/Person';
+import { Expanding } from '../../models/Expanding';
+import { BaseEntity } from '../../models/BaseEntity';
 
 interface TargetsChoiceLineProps {
 	data: Company | Department | Person;
-	depth?: number;
+	disabled: boolean;
+	onChoose: (arg1: boolean, arg2: BaseEntity) => void;
 }
 
 const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 	const [expanded, setExpanded] = useState(false);
+	const [checked, setChecked] = useState(false);
+	const checkboxRef = useRef(null);
+
+	useEffect(() => {
+		props.onChoose(checked, props.data);
+	}, [checked]);
 
 	function handleMarkerOnClick() {
-		if (!props.data.isPerson()) {
+		if (props.data.canBeExpanded) {
 			setExpanded(!expanded);
 		}
 	}
@@ -24,6 +33,12 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 	function handleMarkerKeyDown(event: React.KeyboardEvent) {
 		if (event.key === 'Enter') {
 			handleMarkerOnClick();
+		}
+	}
+
+	function handleTitleClick() {
+		if (checkboxRef.current) {
+			(checkboxRef.current as any).forceCheck();
 		}
 	}
 
@@ -40,26 +55,46 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 						<span>{expanded ? '-' : '+'}</span>
 					</div>
 				)}
-				<Checkbox size={20} />
-				<span className={clsx(s['title'])}>{props.data.getName()}</span>
+				<Checkbox
+					size={24}
+					disabled={props.disabled}
+					onChecked={setChecked}
+					ref={checkboxRef}
+				/>
+				<span
+					className={clsx(s['title'], props.disabled && s['disabled'])}
+					onClick={handleTitleClick}
+					onKeyDown={undefined}>
+					{props.data.getName()}
+				</span>
 			</div>
-			{expanded && !props.data.isPerson() && (
-				<div className={clsx(s['children-box'])}>
-					{(props.data.isCompany() || props.data.isDepartment()) && (
+			{props.data.canBeExpanded && (
+				<div className={clsx(s['children-box'], !expanded && s['hidden'])}>
+					{props.data.hasChildren() ? (
 						<>
-							{(props.data as Company).departments.map((department, index) => (
+							{(props.data as Expanding).departments.map(
+								(department, index) => (
+									<TargetsChoiceLine
+										key={index}
+										data={department}
+										disabled={checked || props.disabled}
+										onChoose={props.onChoose}
+									/>
+								)
+							)}
+							{(props.data as Expanding).persons.map((person, index) => (
 								<TargetsChoiceLine
-                                    key={index}
-                                    data={department}
-                                />
-							))}
-							{(props.data as Company).persons.map((person, index) => (
-								<TargetsChoiceLine
-                                    key={index}
-                                    data={person}
-                                />
+									key={index}
+									data={person}
+									disabled={checked || props.disabled}
+									onChoose={props.onChoose}
+								/>
 							))}
 						</>
+					) : (
+						<span className={clsx(s['label'])}>
+							Нет отделов или сотрудников
+						</span>
 					)}
 				</div>
 			)}

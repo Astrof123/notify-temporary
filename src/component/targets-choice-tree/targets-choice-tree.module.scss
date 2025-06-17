@@ -18,12 +18,12 @@
 
 .list-box {
 	width: 100%;
-    min-height: 300px;
-    max-height: 800px;
+	min-height: 300px;
+	max-height: 800px;
 	box-sizing: border-box;
 	padding: 20px;
 	overflow-y: hidden;
-    resize: vertical;
+	resize: vertical;
 
 	display: flex;
 	flex-direction: column;
