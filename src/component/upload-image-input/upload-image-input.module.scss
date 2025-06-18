@@ -1,0 +1,30 @@
+.upload-image__container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 400px;
+	border: 2px dashed grey;
+	border-radius: 32px;
+}
+
+.upload-image__input {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.upload-image__text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: gray;
+	font-size: 18px;
+}
+
+.upload-image__icon {
+	font-size: 40px;
+}

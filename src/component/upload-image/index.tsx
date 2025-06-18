@@ -2,9 +2,10 @@ import clsx from 'clsx';
 import s from './upload-image.module.scss';
 import plus from '../../images/plus.svg';
 import { ChangeEvent, useState } from 'react';
-import ImageItem from '../image-item';
 import Modal from '../modal';
 import EditImage from '../edit-image';
+import UploadImagePreview from '../upload-image-preview';
+import UploadImageInput from '../upload-image-input';
 
 interface UploadImageProps {
 	onOpenFullImage: (imageUrlParam: string) => void;
@@ -82,44 +83,15 @@ const UploadImage = (props: UploadImageProps) => {
 					[s.visible]: isUploadingVisible,
 				})}>
 				{resizedImageUrl && fileName ? (
-					<div className={clsx(s['upload-image__preview'])}>
-						<span className={clsx(s['upload-image__preview-text'])}>
-							Выбранное изображение
-						</span>
-						<ImageItem
-							imageUrl={resizedImageUrl}
-							imageName={fileName}
-							onRemove={handleRemoveImage}
-							onOpenFullImage={props.onOpenFullImage}
-						/>
-						<div className={clsx(s['upload-image__send'])}>
-							<button
-								type='button'
-								onClick={handleAdd}
-								className={clsx('button_primary')}>
-								Отправить изображение
-							</button>
-						</div>
-					</div>
+					<UploadImagePreview
+						onAdd={handleAdd}
+						onRemoveImage={handleRemoveImage}
+						onOpenFullImage={props.onOpenFullImage}
+						imageUrl={resizedImageUrl}
+						fileName={fileName}
+					/>
 				) : (
-					<div className={clsx(s['upload-image__container'])}>
-						<span className={clsx(s['upload-image__text'])}>
-							<div>
-								Выберите файл для загрузки изображения
-								<span className={clsx(s['upload-image__text-icon'])}>
-									&#128247;
-								</span>
-							</div>
-							<br></br>
-							Оно автоматически приведется к размеру 500x200
-						</span>
-						<input
-							className={clsx(s['upload-image__input'])}
-							type='file'
-							accept='image/*'
-							onChange={handleImageChange}
-						/>
-					</div>
+					<UploadImageInput onImageChange={handleImageChange} />
 				)}
 			</div>
 

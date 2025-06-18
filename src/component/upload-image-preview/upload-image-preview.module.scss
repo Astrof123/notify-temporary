@@ -1,0 +1,16 @@
+.upload-image__preview {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.upload-image__preview-text {
+	display: block;
+	margin-bottom: 24px;
+	font-size: 18px;
+}
+
+.upload-image__send {
+	display: flex;
+	justify-content: flex-end;
+}
