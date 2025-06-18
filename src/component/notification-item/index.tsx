@@ -8,24 +8,24 @@ import { notificationList } from '../../utils/api/notification-list';
 import pencil from '../../images/pencil.png';
 import rubbish from '../../images/rubbish.png';
 import s from './notification-item.module.scss';
+import SmallModal from '../small-modal';
+import { MessageType } from '../../types/message-type';
 
 interface NotificationItemProps {
 	notification: Notification;
 	onUpdateData: () => void;
 }
 
-const NotificationItem = ({
-	notification,
-	onUpdateData,
-}: NotificationItemProps) => {
+const NotificationItem = (props: NotificationItemProps) => {
 	const navigate = useNavigate();
 	const [error, setError] = useState<string | null>(null);
+	const [isSmallModalOpen, setIsSmallModalOpen] = useState<boolean>(false);
 
 	const handleDelete = useCallback(async () => {
 		setError(null);
 		try {
-			await notificationList.deleteItem(notification.id);
-			onUpdateData();
+			await notificationList.deleteItem(props.notification.id);
+			props.onUpdateData();
 		} catch (e: unknown) {
 			let errorMessage = 'Ошибка при удалении уведомления.';
 			if (e instanceof Error) {
@@ -33,16 +33,17 @@ const NotificationItem = ({
 			}
 			console.error(errorMessage, e);
 			setError(errorMessage);
+			setIsSmallModalOpen(true);
 		}
-	}, [notification.id, onUpdateData]);
+	}, [props.notification.id, props.onUpdateData]);
 
 	const handleActivate = useCallback(
 		async (checked: boolean) => {
 			setError(null);
 
 			try {
-				await notificationList.updateItem(notification.id, checked);
-				onUpdateData();
+				await notificationList.updateItem(props.notification.id, checked);
+				props.onUpdateData();
 			} catch (e: unknown) {
 				let errorMessage = 'Ошибка при активации уведомления.';
 				if (e instanceof Error) {
@@ -50,60 +51,67 @@ const NotificationItem = ({
 				}
 				console.error(errorMessage, e);
 				setError(errorMessage);
+				setIsSmallModalOpen(true);
 			}
 		},
-		[notification.id, onUpdateData]
+		[props.notification.id, props.onUpdateData]
 	);
 
 	const handleEdit = useCallback(() => {
-		navigate(`/change-notify?notificationId=${notification.id}`);
-	}, [navigate, notification.id]);
+		navigate(`/change-notify?notificationId=${props.notification.id}`);
+	}, [navigate, props.notification.id]);
+
+	const handleCloseSmallModal = useCallback(() => {
+		setIsSmallModalOpen(false);
+		setError(null);
+	}, []);
 
 	return (
-		<tr className={clsx(s['notification-row'])}>
-			<td>{notification.name}</td>
-			<td>{notification.type}</td>
-			<td>{notification.period}</td>
-			{notification.isActive ? (
-				<td className={clsx(s.active)}>Используется</td>
-			) : (
-				<td className={clsx(s.inactive)}>Не используется</td>
-			)}
-			<td>
-				<div className={clsx(s['notification__functions'])}>
-					<Switch isUsed={notification.isActive} onSwitch={handleActivate} />
-					<button className={clsx('button_empty')} onClick={handleEdit}>
-						<img
-							className={clsx(s.edit)}
-							src={pencil}
-							alt='Редактировать'
-							title='Редактировать'
-						/>
-					</button>
-					<button className={clsx('button_empty')} onClick={handleDelete}>
-						<img
-							className={clsx(s.remove)}
-							src={rubbish}
-							alt='Удалить'
-							title='Удалить'
-						/>
-					</button>
-				</div>
-			</td>
-
-			{error && (
+		<>
+			<tr className={clsx(s['notification-row'])}>
+				<td>{props.notification.name}</td>
+				<td>{props.notification.type}</td>
+				<td>{props.notification.period}</td>
+				{props.notification.isActive ? (
+					<td className={clsx(s.active)}>Используется</td>
+				) : (
+					<td className={clsx(s.inactive)}>Не используется</td>
+				)}
 				<td>
-					<p
-						className={clsx(
-							'error-text',
-							'error-text_small',
-							s['error-text_table']
-						)}>
-						{error}
-					</p>
+					<div className={clsx(s['notification__functions'])}>
+						<Switch
+							isUsed={props.notification.isActive}
+							onSwitch={handleActivate}
+						/>
+						<button className={clsx('button_empty')} onClick={handleEdit}>
+							<img
+								className={clsx(s.edit)}
+								src={pencil}
+								alt='Редактировать'
+								title='Редактировать'
+							/>
+						</button>
+						<button className={clsx('button_empty')} onClick={handleDelete}>
+							<img
+								className={clsx(s.remove)}
+								src={rubbish}
+								alt='Удалить'
+								title='Удалить'
+							/>
+						</button>
+					</div>
 				</td>
+			</tr>
+			{error && (
+				<SmallModal
+					isOpen={isSmallModalOpen}
+					onClose={handleCloseSmallModal}
+					message={error}
+					messageType={MessageType.Error}
+					buttonText='Понятно'
+				/>
 			)}
-		</tr>
+		</>
 	);
 };
 

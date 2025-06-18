@@ -26,6 +26,10 @@
 	gap: 20px;
 }
 
+.notification-row {
+	user-select: none;
+}
+
 .notification-row:hover {
 	background-color: #ffffff;
 }

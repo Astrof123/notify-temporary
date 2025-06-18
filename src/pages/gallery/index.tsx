@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import clsx from 'clsx';
 import Header from '../../component/header';
 import ImageList from '../../component/image-list';
 import UploadImage from '../../component/upload-image';
@@ -7,13 +6,20 @@ import Modal from '../../component/modal';
 import FullScreenImage from '../../component/full-screen-image';
 import { ImageView } from '../../types/image-view';
 import { imageViewList } from '../../utils/api/gallery';
+import SmallModal from '../../component/small-modal';
+import { MessageType } from '../../types/message-type';
 
 function Gallery() {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isErrorSmallModalOpen, setIsErrorSmallModalOpen] =
+		useState<boolean>(false);
+	const [isSuccessSmallModalOpen, setIsSuccessSmallModalOpen] =
+		useState<boolean>(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [data, setData] = useState<ImageView[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
 	const fetchData = useCallback(async () => {
 		setLoading(true);
@@ -30,6 +36,7 @@ function Gallery() {
 			}
 			console.error(errorMessage, e);
 			setError(errorMessage);
+			setIsErrorSmallModalOpen(true);
 		} finally {
 			setLoading(false);
 		}
@@ -44,6 +51,8 @@ function Gallery() {
 				if (imageId) {
 					await imageViewList.deleteItem(imageId);
 					await fetchData();
+					setSuccessMessage('Изображение успешно удалено');
+					setIsSuccessSmallModalOpen(true);
 				}
 			} catch (e: unknown) {
 				let errorMessage = 'Ошибка при удалении изображения.';
@@ -54,6 +63,7 @@ function Gallery() {
 
 				console.error(errorMessage, e);
 				setError(errorMessage);
+				setIsErrorSmallModalOpen(true);
 			} finally {
 				setLoading(false);
 			}
@@ -69,6 +79,9 @@ function Gallery() {
 			try {
 				await imageViewList.post(name, url);
 				await fetchData();
+
+				setSuccessMessage('Изображение успешно загружено');
+				setIsSuccessSmallModalOpen(true);
 			} catch (e: unknown) {
 				let errorMessage = 'Ошибка при добавлении изображения.';
 
@@ -78,6 +91,7 @@ function Gallery() {
 
 				console.error(errorMessage, e);
 				setError(errorMessage);
+				setIsErrorSmallModalOpen(true);
 			} finally {
 				setLoading(false);
 			}
@@ -99,10 +113,19 @@ function Gallery() {
 		setImageUrl(null);
 	}, []);
 
+	const handleCloseErrorSmallModal = useCallback(() => {
+		setIsErrorSmallModalOpen(false);
+		setError(null);
+	}, []);
+
+	const handleCloseSuccessSmallModal = useCallback(() => {
+		setIsSuccessSmallModalOpen(false);
+		setSuccessMessage(null);
+	}, []);
+
 	return (
 		<>
 			<Header />
-			{error && <p className={clsx('error-text')}>{error}</p>}
 			<UploadImage onOpenFullImage={handleOpenFullImage} onAdd={handleAdd} />
 
 			<ImageList
@@ -119,6 +142,26 @@ function Gallery() {
 						onClickEndViewButton={handleCloseModal}
 					/>
 				</Modal>
+			)}
+
+			{error && (
+				<SmallModal
+					isOpen={isErrorSmallModalOpen}
+					onClose={handleCloseErrorSmallModal}
+					message={error}
+					messageType={MessageType.Error}
+					buttonText='Понятно'
+				/>
+			)}
+
+			{successMessage && (
+				<SmallModal
+					isOpen={isSuccessSmallModalOpen}
+					onClose={handleCloseSuccessSmallModal}
+					message={successMessage}
+					messageType={MessageType.Success}
+					buttonText='Понятно'
+				/>
 			)}
 		</>
 	);

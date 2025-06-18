@@ -10,7 +10,7 @@ import plusIcon from '../../images/plus.svg';
 import s from './main.module.scss';
 
 function Main() {
-	const [searchQuery, setSearchQuery] = useState('');
+	const [searchQuery, setSearchQuery] = useState<string>('');
 
 	const handleSearch = useCallback((query: string) => {
 		setSearchQuery(query);
