@@ -88,3 +88,7 @@ a.no-link {
 	width: 100%;
 	overflow: hidden auto;
 }
+
+.form-section > .content.no-overflow {
+	overflow: unset;
+}

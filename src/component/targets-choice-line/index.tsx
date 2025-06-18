@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import s from './targets-choice-line.module.scss';
 import '../../styles.css';
-import { useEffect, useRef, useState } from 'react';
-import Checkbox from '../checkbox';
+import { useEffect, useState } from 'react';
 import { Company } from '../../models/notification-targets/Company';
 import { Department } from '../../models/notification-targets/Department';
 import { Person } from '../../models/notification-targets/Person';
 import { Expanding } from '../../models/notification-targets/Expanding';
 import { BaseEntity } from '../../models/notification-targets/BaseEntity';
+import CheckboxWithLabel from '../checkbox-with-label';
 
 interface TargetsChoiceLineProps {
 	data: Company | Department | Person;
@@ -19,7 +19,6 @@ interface TargetsChoiceLineProps {
 const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 	const [expanded, setExpanded] = useState(false);
 	const [checked, setChecked] = useState(false);
-	const checkboxRef = useRef(null);
 
 	useEffect(() => {
 		props.onChoose(checked, props.data);
@@ -37,12 +36,6 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 		}
 	}
 
-	function handleTitleClick() {
-		if (checkboxRef.current) {
-			(checkboxRef.current as any).forceCheck();
-		}
-	}
-
 	return (
 		<div
 			className={clsx(s['target-line-container'], props.hidden && s['hidden'])}>
@@ -57,18 +50,12 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 						<span>{expanded ? '-' : '+'}</span>
 					</div>
 				)}
-				<Checkbox
+				<CheckboxWithLabel
 					size={24}
+					label={props.data.getName()}
 					disabled={props.disabled}
 					onChecked={setChecked}
-					ref={checkboxRef}
 				/>
-				<span
-					className={clsx(s['title'], props.disabled && s['disabled'])}
-					onClick={handleTitleClick}
-					onKeyDown={undefined}>
-					{props.data.getName()}
-				</span>
 			</div>
 			{props.data.canBeExpanded && (
 				<div className={clsx(s['children-box'], !expanded && s['hidden'])}>
