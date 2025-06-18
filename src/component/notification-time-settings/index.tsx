@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { Periodicity } from '../../models/notification-time/Periodicity';
 import PeriodicitySelector from '../periodicity-selector';
 import NumberSlider from '../number-slider';
+import CheckboxWithLabel from '../checkbox-with-label';
+import DatetimePicker from '../datetime-picker';
 
 const NotificationTimeSettings = () => {
 	const periodicities = [
@@ -17,6 +19,10 @@ const NotificationTimeSettings = () => {
 		{ title: 'Ежегодное', value: Periodicity.ANNUAL },
 	];
 	const [periodicity, setPeriodicity] = useState(Periodicity.ONETIME);
+	const [timeDisplay, setTimeDisplay] = useState(0);
+	const [withoutTimeDisplay, setWithoutTimeDisplay] = useState(false);
+
+	console.log(timeDisplay);
 
 	return (
 		<div
@@ -42,18 +48,35 @@ const NotificationTimeSettings = () => {
 					))}
 				</div>
 			</div>
-			<div className={clsx('content')}>
+			<div className={clsx('content', 'no-overflow')}>
 				<FormSectionTitle
 					title={'Период активности уведомления'}
 					required={true}
 				/>
+				<DatetimePicker />
 			</div>
 			<div className={clsx('content')}>
 				<FormSectionTitle
 					title={'Время отображения уведомления (в секундах)'}
 					required={true}
 				/>
-				<NumberSlider fillWidth={true} minValue={0} maxValue={100} />
+				{!withoutTimeDisplay && (
+					<NumberSlider
+						fillWidth={false}
+						width={300}
+						startValue={20}
+						minValue={0}
+						maxValue={999}
+						step={1}
+						onChange={setTimeDisplay}
+					/>
+				)}
+				<CheckboxWithLabel
+					size={24}
+					label={'Отображать до тех пор, пока не закроет пользователь'}
+					disabled={false}
+					onChecked={setWithoutTimeDisplay}
+				/>
 			</div>
 		</div>
 	);

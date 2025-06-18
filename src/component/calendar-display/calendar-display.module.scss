@@ -1,0 +1,48 @@
+.calendar-display {
+	display: inline-flex;
+	flex-direction: column;
+	row-gap: 8px;
+	user-select: none;
+}
+
+.calendar-display.left {
+	padding-left: 12px;
+	padding-right: 8px;
+}
+
+.calendar-display.rigth {
+	padding-left: 8px;
+	padding-right: 12px;
+}
+
+.week-days-header {
+	display: inline-flex;
+}
+
+span.week-day {
+	width: 100%;
+	color: #8e8e8e;
+	font-size: 12px;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.days-box {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	row-gap: 3px;
+}
+
+.date {
+	width: calc(100% / 7);
+	box-sizing: border-box;
+	padding: 6px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 18px;
+	font-weight: 300;
+}

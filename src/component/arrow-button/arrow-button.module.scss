@@ -1,0 +1,24 @@
+.arrow-button {
+	box-sizing: border-box;
+	padding: 4px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	cursor: pointer;
+	border-radius: 50%;
+	background-color: #f3f4f4;
+}
+
+.arrow-button:hover {
+	background-color: #eeeeee;
+}
+
+.arrow-button.right {
+	transform: rotate(-90deg);
+}
+
+.arrow-button.left {
+	transform: rotate(90deg);
+}
