@@ -3,15 +3,16 @@ import s from './targets-choice-line.module.scss';
 import '../../styles.css';
 import { useEffect, useRef, useState } from 'react';
 import Checkbox from '../checkbox';
-import { Company } from '../../models/Company';
-import { Department } from '../../models/Department';
-import { Person } from '../../models/Person';
-import { Expanding } from '../../models/Expanding';
-import { BaseEntity } from '../../models/BaseEntity';
+import { Company } from '../../models/notification-targets/Company';
+import { Department } from '../../models/notification-targets/Department';
+import { Person } from '../../models/notification-targets/Person';
+import { Expanding } from '../../models/notification-targets/Expanding';
+import { BaseEntity } from '../../models/notification-targets/BaseEntity';
 
 interface TargetsChoiceLineProps {
 	data: Company | Department | Person;
 	disabled: boolean;
+	hidden?: boolean;
 	onChoose: (arg1: boolean, arg2: BaseEntity) => void;
 }
 
@@ -43,7 +44,8 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 	}
 
 	return (
-		<div className={clsx(s['target-line-container'])}>
+		<div
+			className={clsx(s['target-line-container'], props.hidden && s['hidden'])}>
 			<div className={clsx(s['parent-box'])}>
 				{!props.data.isPerson() && (
 					<div

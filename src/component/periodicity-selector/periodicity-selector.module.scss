@@ -1,0 +1,27 @@
+label.periodicity-selector {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.periodicity-selector > input.radio {
+	display: none;
+}
+
+.periodicity-selector > input.radio + .selector-box {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	height: 40px;
+	padding: 0 30px;
+	color: white;
+	background-color: #00504e;
+	border-radius: 20px;
+}
+
+.periodicity-selector > input.radio:checked + .selector-box {
+	display: inline-flex;
+	background-color: #f04923;
+}

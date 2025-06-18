@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import s from './form-textarea.module.scss';
 import '../../styles.css';
 import { useState } from 'react';
-import RequiredFormSymbol from '../required-form-symbol';
 import Textarea from '../textarea';
+import FormSectionTitle from '../form-section-title';
 
 interface FormTextareaProps {
 	name?: string;
@@ -27,10 +27,7 @@ const FormTextarea = (props: FormTextareaProps) => {
 
 	return (
 		<div className={clsx(s['textarea-wrapper'])}>
-			<div className={clsx(s['textarea-label'])}>
-				<span>{props.label}</span>
-				{props.required && <RequiredFormSymbol />}
-			</div>
+			<FormSectionTitle title={props.label} required={props.required} />
 			<Textarea
 				name={props.name}
 				value={value}
