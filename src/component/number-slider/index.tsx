@@ -19,7 +19,7 @@ const NumberSlider = (props: NumberSliderProps) => {
 
 	useEffect(() => {
 		const range = props.maxValue - props.minValue;
-    	const percentage = ((value - props.minValue) / range) * 100;
+		const percentage = ((value - props.minValue) / range) * 100;
 		setThumbOffset(percentage);
 		if (props.onChange) {
 			props.onChange(value);
@@ -35,8 +35,7 @@ const NumberSlider = (props: NumberSliderProps) => {
 			<div>{props.minValue}</div>
 			<div
 				className={clsx(s['slider-wrapper'])}
-				style={{width: (!props.fillWidth ? `${props.width}px` : `100%`)}}
-			>
+				style={{ width: !props.fillWidth ? `${props.width}px` : '100%' }}>
 				<input
 					className={clsx(s['slider'])}
 					type='range'
@@ -49,9 +48,10 @@ const NumberSlider = (props: NumberSliderProps) => {
 				<span
 					className={clsx(s['value'])}
 					style={{
-						left: `${thumbOffset}%`
-					}}
-				>{value}</span>
+						left: `${thumbOffset}%`,
+					}}>
+					{value}
+				</span>
 			</div>
 			<div>{props.maxValue}</div>
 		</div>

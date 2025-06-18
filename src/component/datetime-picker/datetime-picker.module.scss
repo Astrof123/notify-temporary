@@ -1,94 +1,95 @@
 :root {
-    --picker-width: 760px;
+	--picker-width: 760px;
 }
 
 .datetime-picker-container {
-    display: inline-flex;
-    flex-direction: column;
-    position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	position: relative;
 }
 
 .datetime-input {
-    max-width: 300px;
+	max-width: 300px;
 	height: 60px;
-    box-sizing: border-box;
+	box-sizing: border-box;
 	padding: 16px;
 
-    display: inline-flex;
-    column-gap: 16px;
-    align-items: center;
+	display: inline-flex;
+	column-gap: 16px;
+	align-items: center;
 
-    outline: 0;
+	outline: 0;
 	border-radius: 16px;
-	border: 1px solid #A7A9AC;
-    color: #A7A9AC;
+	border: 1px solid #a7a9ac;
+	color: #a7a9ac;
 	font-weight: 300;
 	font-size: 16px;
 	font-family: inherit;
 	font-style: normal;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .datetime-input:hover {
-	border: 1px solid #F04923;
+	border: 1px solid #f04923;
 }
 
 .datetime-input:focus {
-	border: 2px solid #F04923;
+	border: 2px solid #f04923;
 }
 
 span.input-text {
-    width: 100%;
+	width: 100%;
 }
 
 .datetime-input > img {
-    user-select: none;
+	user-select: none;
 }
 
 .datetime-picker {
-    width: var(--picker-width);
-    display: flex;
-    column-gap: 8px;
+	width: var(--picker-width);
+	display: flex;
+	column-gap: 8px;
 
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 0;
 
-    z-index: 10;
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12), 0px 12px 20px 0px rgba(0, 0, 0, 0.14);
+	z-index: 10;
+	border-radius: 16px;
+	background: white;
+	box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12),
+		0px 12px 20px 0px rgba(0, 0, 0, 0.14);
 }
 
 .calendar {
-    width: 100%;
-    padding-bottom: 16px;
+	width: 100%;
+	padding-bottom: 16px;
 
-    display: inline-flex;
-    flex-direction: column;
-    row-gap: 8px;
+	display: inline-flex;
+	flex-direction: column;
+	row-gap: 8px;
 }
 
 .calendar-header {
-    display: flex;
-    gap: 32px;
-    align-items: center;
-    align-self: stretch;
+	display: flex;
+	gap: 32px;
+	align-items: center;
+	align-self: stretch;
 }
 
 .calendar-header.left {
-    padding: 20px 64px 12px 20px;
+	padding: 20px 64px 12px 20px;
 }
 
 .calendar-header.right {
-    padding: 20px 20px 12px 64px;
-    justify-content: flex-end;
+	padding: 20px 20px 12px 64px;
+	justify-content: flex-end;
 }
 
 span.month-year {
-    width: 100%;
-    flex: 1 0 0;
-    font-weight: 500;
-    font-size: 18px;
-    text-align: center;
+	width: 100%;
+	flex: 1 0 0;
+	font-weight: 500;
+	font-size: 18px;
+	text-align: center;
 }

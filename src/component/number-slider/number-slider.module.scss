@@ -8,55 +8,55 @@
 .slider-wrapper {
 	width: 100%;
 	height: 25px;
-    position: relative;
+	position: relative;
 }
 
 .slider {
-    width: calc(100% + 1.5em);
-    height: 0.5em;
-    margin: 0.5em -0.75em;
+	width: calc(100% + 1.5em);
+	height: 0.5em;
+	margin: 0.5em -0.75em;
 	box-sizing: border-box;
 
-    display: block;
-    border-radius: 0.25em;
-    background-color: #00504e;
-    appearance: none;
-    -webkit-appearance: none;
-    -webkit-tap-highlight-color: transparent;
+	display: block;
+	border-radius: 0.25em;
+	background-color: #00504e;
+	appearance: none;
+	-webkit-appearance: none;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .slider::-webkit-slider-thumb {
-    width: 1.5em;
-    height: 1.5em;
+	width: 1.5em;
+	height: 1.5em;
 
 	cursor: pointer;
-    border: 0;
-    border-radius: 50%;
-    background-color: white;
-    box-shadow: 0 0.125em 0.5em #c0c0c0;
-    appearance: none;
-    -webkit-appearance: none;
+	border: 0;
+	border-radius: 50%;
+	background-color: white;
+	box-shadow: 0 0.125em 0.5em #c0c0c0;
+	appearance: none;
+	-webkit-appearance: none;
 }
 
 .slider:focus::-webkit-slider-thumb,
 .slider::-webkit-slider-thumb:hover {
-    background-color: #DDDDDD;
+	background-color: #dddddd;
 }
 
 .slider::-moz-range-thumb {
-    width: 1.5em;
-    height: 1.5em;
+	width: 1.5em;
+	height: 1.5em;
 
 	cursor: pointer;
-    border: 0;
-    border-radius: 50%;
-    background-color: white;
-    box-shadow: 0 0.125em 0.5em #c0c0c0;
+	border: 0;
+	border-radius: 50%;
+	background-color: white;
+	box-shadow: 0 0.125em 0.5em #c0c0c0;
 }
 
 .slider:focus::-moz-range-thumb,
 .slider::-moz-range-thumb:hover {
-    background-color: #DDDDDD;
+	background-color: #dddddd;
 }
 
 span.value {
@@ -68,10 +68,10 @@ span.value {
 	justify-content: center;
 
 	position: absolute;
-    bottom: calc(100% + 0.5em);
+	bottom: calc(100% + 0.5em);
 
 	border-radius: 5px;
-    background-color: #00504e;
+	background-color: #00504e;
 	transform: translateX(-50%);
 	color: white;
 }

@@ -22,6 +22,8 @@ const NotificationTimeSettings = () => {
 	const [timeDisplay, setTimeDisplay] = useState(0);
 	const [withoutTimeDisplay, setWithoutTimeDisplay] = useState(false);
 
+	console.log(timeDisplay);
+
 	return (
 		<div
 			className={clsx(
@@ -58,7 +60,7 @@ const NotificationTimeSettings = () => {
 					title={'Время отображения уведомления (в секундах)'}
 					required={true}
 				/>
-				{!withoutTimeDisplay &&
+				{!withoutTimeDisplay && (
 					<NumberSlider
 						fillWidth={false}
 						width={300}
@@ -68,7 +70,7 @@ const NotificationTimeSettings = () => {
 						step={1}
 						onChange={setTimeDisplay}
 					/>
-				}
+				)}
 				<CheckboxWithLabel
 					size={24}
 					label={'Отображать до тех пор, пока не закроет пользователь'}
