@@ -17,7 +17,7 @@ interface EditImageProps {
 	onImageUpdate: (imageUrl: string) => void;
 }
 
-const EditImage = ({ imageSrc, onImageUpdate }: EditImageProps) => {
+const EditImage = (props: EditImageProps) => {
 	const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
 	const [zoom, setZoom] = useState(1);
 	const [croppedAreaPixels, setCroppedAreaPixels] =
@@ -60,7 +60,7 @@ const EditImage = ({ imageSrc, onImageUpdate }: EditImageProps) => {
 	);
 
 	const handleResize = useCallback(async () => {
-		if (croppedAreaPixels && imageSrc) {
+		if (croppedAreaPixels && props.imageSrc) {
 			try {
 				const tempCanvas = document.createElement('canvas');
 				const tempCtx = tempCanvas.getContext('2d');
@@ -84,21 +84,21 @@ const EditImage = ({ imageSrc, onImageUpdate }: EditImageProps) => {
 					const croppedImageUrl = tempCanvas.toDataURL('image/jpeg');
 
 					const resized = await resizeImage(croppedImageUrl, 500, 200);
-					onImageUpdate(resized);
+					props.onImageUpdate(resized);
 				};
-				img.src = imageSrc;
+				img.src = props.imageSrc;
 			} catch (error) {
 				console.error('Error resizing:', error);
 			}
 		}
-	}, [croppedAreaPixels, resizeImage, imageSrc]);
+	}, [croppedAreaPixels, resizeImage, props.imageSrc]);
 
 	return (
 		<>
 			<div className={clsx(s['crop-wrapper'])}>
 				<div className={clsx(s['crop-container'])}>
 					<Cropper
-						image={imageSrc}
+						image={props.imageSrc}
 						crop={crop}
 						zoom={zoom}
 						aspect={5 / 2}
@@ -124,7 +124,7 @@ const EditImage = ({ imageSrc, onImageUpdate }: EditImageProps) => {
 				<button
 					className={clsx('button_primary')}
 					onClick={handleResize}
-					disabled={!imageSrc}>
+					disabled={!props.imageSrc}>
 					Завершить редактирование
 				</button>
 			</div>

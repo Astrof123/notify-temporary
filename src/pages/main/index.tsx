@@ -1,11 +1,13 @@
+import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
+import clsx from 'clsx';
+
 import Header from '../../component/header';
 import NotificationList from '../../component/notification-list';
 import Search from '../../component/search';
-import '../../styles.css';
-import plus from '../../images/plus.svg';
-import clsx from 'clsx';
+
+import plusIcon from '../../images/plus.svg';
 import s from './main.module.scss';
-import { useCallback, useState } from 'react';
 
 function Main() {
 	const [searchQuery, setSearchQuery] = useState('');
@@ -17,16 +19,16 @@ function Main() {
 	return (
 		<>
 			<Header />
-			<div className={clsx(s['search-wrapper'])}>
-				<div className={clsx(s['search-extra-container'])}>
+			<div className={clsx(s['search-bar-container'])}>
+				<div className={clsx(s['search-input-container'])}>
 					<Search placeholder={'Поиск уведомления'} onSubmit={handleSearch} />
 				</div>
-				<a className={clsx('no-link')} href='/add-notify'>
+				<Link to='/add-notify' className={clsx('no-link')}>
 					<button className={clsx('button_primary')}>
 						Добавить уведомление
-						<img className={clsx('plus-icon')} src={plus} alt='plus' />
+						<img className={clsx('plus-icon')} src={plusIcon} alt='plus' />
 					</button>
-				</a>
+				</Link>
 			</div>
 
 			<NotificationList searchQuery={searchQuery} />

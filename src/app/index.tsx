@@ -1,6 +1,7 @@
 import { Main, Gallery } from '../pages';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import NotifyPage from '../pages/notification';
+import '../styles.css';
 
 export const App = () => {
 	const location = useLocation();

@@ -35,16 +35,16 @@ const deleteItem = async (notificationId: number) => {
 	data = data.filter((item) => item.id != notificationId);
 };
 
-const activateItem = async (notificationId: number) => {
+const updateItem = async (notificationId: number, isActive: boolean) => {
 	// const formData = new FormData();
 	// formData.append('id', String(notificationId));
 	// const data = await request.post('TodoItems', formData);
 	const dataForActivate = data.filter((item) => item.id == notificationId)[0];
-	dataForActivate.isActive = !dataForActivate.isActive;
+	dataForActivate.isActive = isActive;
 };
 
 export const notificationList = {
 	get,
 	deleteItem,
-	activateItem,
+	updateItem,
 };

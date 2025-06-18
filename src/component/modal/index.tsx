@@ -9,7 +9,7 @@ interface ModalProps {
 	children: React.ReactNode;
 }
 
-const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+const Modal = (props: ModalProps) => {
 	const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
 	const modalRootRef = useRef<HTMLElement | null>(null);
 
@@ -28,20 +28,20 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 		};
 	}, []);
 
-	if (!isOpen || !modalRoot) {
+	if (!props.isOpen || !modalRoot) {
 		return null;
 	}
 
 	return ReactDOM.createPortal(
 		<div
 			className={clsx(s['modal-overlay'])}
-			onClick={onClose}
-			onKeyDown={onClose}>
+			onClick={props.onClose}
+			onKeyDown={props.onClose}>
 			<div
 				className={clsx(s['modal-content'])}
 				onClick={(e) => e.stopPropagation()}
 				onKeyDown={(e) => e.stopPropagation()}>
-				{children}
+				{props.children}
 			</div>
 		</div>,
 		modalRoot

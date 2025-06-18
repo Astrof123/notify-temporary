@@ -1,8 +1,8 @@
-.used {
+.active {
 	color: #00504e;
 }
 
-.not-used {
+.inactive {
 	color: #f04923;
 }
 
@@ -28,4 +28,8 @@
 
 .notification-row:hover {
 	background-color: #ffffff;
+}
+
+.error-text_table {
+	width: 200px;
 }

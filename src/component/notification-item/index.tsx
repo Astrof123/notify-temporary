@@ -1,12 +1,13 @@
+import { useCallback, useState } from 'react';
+import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
+
 import { Notification } from '../../types/notification';
 import Switch from '../switch';
+import { notificationList } from '../../utils/api/notification-list';
 import pencil from '../../images/pencil.png';
 import rubbish from '../../images/rubbish.png';
-import clsx from 'clsx';
 import s from './notification-item.module.scss';
-import { notificationList } from '../../utils/api/notification-list';
-import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
 
 interface NotificationItemProps {
 	notification: Notification;
@@ -18,51 +19,45 @@ const NotificationItem = ({
 	onUpdateData,
 }: NotificationItemProps) => {
 	const navigate = useNavigate();
-	const [deleting, setDeleting] = useState<boolean>(false);
-	const [activating, setActivating] = useState<boolean>(false);
+	const [error, setError] = useState<string | null>(null);
 
-	const fetchDelete = useCallback(async () => {
+	const handleDelete = useCallback(async () => {
+		setError(null);
 		try {
 			await notificationList.deleteItem(notification.id);
 			onUpdateData();
-		} catch (error) {
-			console.log(error);
+		} catch (e: unknown) {
+			let errorMessage = 'Ошибка при удалении уведомления.';
+			if (e instanceof Error) {
+				errorMessage = `Ошибка при удалении уведомления: ${e.message}`;
+			}
+			console.error(errorMessage, e);
+			setError(errorMessage);
 		}
-	}, []);
+	}, [notification.id, onUpdateData]);
 
-	const fetchActivate = useCallback(async () => {
-		try {
-			await notificationList.activateItem(notification.id);
-		} catch (error) {
-			console.log(error);
-		}
-	}, []);
+	const handleActivate = useCallback(
+		async (checked: boolean) => {
+			setError(null);
 
-	const handleRemove = async () => {
-		setDeleting(true);
-	};
+			try {
+				await notificationList.updateItem(notification.id, checked);
+				onUpdateData();
+			} catch (e: unknown) {
+				let errorMessage = 'Ошибка при активации уведомления.';
+				if (e instanceof Error) {
+					errorMessage = `Ошибка при активации уведомления: ${e.message}`;
+				}
+				console.error(errorMessage, e);
+				setError(errorMessage);
+			}
+		},
+		[notification.id, onUpdateData]
+	);
 
-	const handleEdit = () => {
+	const handleEdit = useCallback(() => {
 		navigate(`/change-notify?notificationId=${notification.id}`);
-	};
-
-	const handleSwitch = useCallback(() => {
-		setActivating(true);
-	}, []);
-
-	useEffect(() => {
-		if (deleting) {
-			fetchDelete();
-			setDeleting(false);
-		}
-	}, [deleting, fetchDelete]);
-
-	useEffect(() => {
-		if (activating) {
-			fetchActivate();
-			setActivating(false);
-		}
-	}, [activating, fetchActivate]);
+	}, [navigate, notification.id]);
 
 	return (
 		<tr className={clsx(s['notification-row'])}>
@@ -70,13 +65,13 @@ const NotificationItem = ({
 			<td>{notification.type}</td>
 			<td>{notification.period}</td>
 			{notification.isActive ? (
-				<td className={clsx(s.used)}>Используется</td>
+				<td className={clsx(s.active)}>Используется</td>
 			) : (
-				<td className={clsx(s['not-used'])}>Не используется</td>
+				<td className={clsx(s.inactive)}>Не используется</td>
 			)}
 			<td>
 				<div className={clsx(s['notification__functions'])}>
-					<Switch isUsed={notification.isActive} onSwitch={handleSwitch} />
+					<Switch isUsed={notification.isActive} onSwitch={handleActivate} />
 					<button className={clsx('button_empty')} onClick={handleEdit}>
 						<img
 							className={clsx(s.edit)}
@@ -85,7 +80,7 @@ const NotificationItem = ({
 							title='Редактировать'
 						/>
 					</button>
-					<button className={clsx('button_empty')} onClick={handleRemove}>
+					<button className={clsx('button_empty')} onClick={handleDelete}>
 						<img
 							className={clsx(s.remove)}
 							src={rubbish}
@@ -95,6 +90,19 @@ const NotificationItem = ({
 					</button>
 				</div>
 			</td>
+
+			{error && (
+				<td>
+					<p
+						className={clsx(
+							'error-text',
+							'error-text_small',
+							s['error-text_table']
+						)}>
+						{error}
+					</p>
+				</td>
+			)}
 		</tr>
 	);
 };

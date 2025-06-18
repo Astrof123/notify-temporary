@@ -1,7 +1,6 @@
+import { useCallback } from 'react';
 import clsx from 'clsx';
 import s from './search.module.scss';
-import '../../styles.css';
-import { useCallback } from 'react';
 import Input from '../input';
 
 interface SearchProps {
@@ -13,22 +12,17 @@ interface SearchProps {
 
 function Search(props: SearchProps) {
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-		if (props.onValueChanged) {
-			props.onValueChanged(event.target.value);
-		}
+		props.onValueChanged?.(event.target.value);
 	}
 
 	const handleSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
 			const form = e.target as HTMLFormElement;
-			const searchElement = (form.elements as any)[
-				'search'
-			] as HTMLInputElement;
-
-			if (searchElement) {
-				props.onSubmit?.(searchElement.value);
-			}
+			const searchElement = form.querySelector(
+				'[name="search"]'
+			) as HTMLInputElement;
+			props.onSubmit?.(searchElement.value);
 		},
 		[props.onSubmit]
 	);

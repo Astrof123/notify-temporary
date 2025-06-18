@@ -1,10 +1,10 @@
+import { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
-import s from './notification-list.module.scss';
-import '../../styles.css';
-import { useEffect, useState, useCallback } from 'react';
-import { Notification } from '../../types/notification';
+
 import NotificationItem from '../notification-item';
+import { Notification } from '../../types/notification';
 import { notificationList } from '../../utils/api/notification-list';
+import s from './notification-list.module.scss';
 
 interface NotificationListProps {
 	searchQuery: string;
@@ -13,20 +13,22 @@ interface NotificationListProps {
 const NotificationList = ({ searchQuery }: NotificationListProps) => {
 	const [data, setData] = useState<Notification[]>([]);
 	const [loading, setLoading] = useState(false);
-	const [refresh, setRefresh] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
-	const fetchData = useCallback(async (query = '') => {
+	const fetchData = useCallback(async (query: string) => {
 		setLoading(true);
+		setError(null);
 
 		try {
 			const newData = await notificationList.get(query);
 			setData(newData);
-		} catch (e) {
+		} catch (e: unknown) {
+			let errorMessage = 'Неизвестная ошибка при получении уведомлений.';
 			if (e instanceof Error) {
-				console.error('Ошибка при получении уведомлений:', e.message);
-			} else {
-				console.error('Неизвестная ошибка при получении уведомлений:', e);
+				errorMessage = `Ошибка при получении уведомлений: ${e.message}`;
 			}
+			console.error(errorMessage, e);
+			setError(errorMessage);
 		} finally {
 			setLoading(false);
 		}
@@ -36,22 +38,21 @@ const NotificationList = ({ searchQuery }: NotificationListProps) => {
 		fetchData(searchQuery);
 	}, [fetchData, searchQuery]);
 
-	const handleUpdateData = useCallback(() => {
-		setRefresh((prev) => !prev);
-	}, []);
-
-	useEffect(() => {
-		if (refresh) {
-			fetchData(searchQuery);
-			setRefresh(false);
-		}
-	}, [refresh, fetchData, searchQuery]);
+	const handleRefreshData = useCallback(() => {
+		fetchData(searchQuery);
+	}, [fetchData, searchQuery]);
 
 	return (
 		<div className={clsx(s['notifications-wrapper'])}>
 			<div className={clsx(s.notifications)}>
 				{loading ? (
-					<p className={clsx(s['loading-text'])}>Загрузка уведомлений...</p>
+					<p className={clsx('loading-text')}>Загрузка уведомлений...</p>
+				) : error ? (
+					<p className={clsx('error-text')}>{error}</p>
+				) : data.length === 0 ? (
+					<p className={clsx('empty-list-text')}>
+						Уведомлений пока не добавлено.
+					</p>
 				) : (
 					<table>
 						<thead>
@@ -66,9 +67,9 @@ const NotificationList = ({ searchQuery }: NotificationListProps) => {
 						<tbody>
 							{data.map((item) => (
 								<NotificationItem
-									notification={item}
-									onUpdateData={handleUpdateData}
 									key={item.id}
+									notification={item}
+									onUpdateData={handleRefreshData}
 								/>
 							))}
 						</tbody>

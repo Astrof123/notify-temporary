@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import s from './upload-image.module.scss';
 import plus from '../../images/plus.svg';
-import '../../styles.css';
 import { ChangeEvent, useState } from 'react';
 import ImageItem from '../image-item';
 import Modal from '../modal';
@@ -9,9 +8,10 @@ import EditImage from '../edit-image';
 
 interface UploadImageProps {
 	onOpenFullImage: (imageUrlParam: string) => void;
+	onAdd: (name: string, url: string) => void;
 }
 
-const UploadImage = ({ onOpenFullImage }: UploadImageProps) => {
+const UploadImage = (props: UploadImageProps) => {
 	const [isUploadingVisible, setIsUploadingVisible] = useState<boolean>(false);
 	const [imageUrl, setImageUrl] = useState<string | null>(null);
 	const [fileName, setFileName] = useState<string | null>(null);
@@ -57,6 +57,15 @@ const UploadImage = ({ onOpenFullImage }: UploadImageProps) => {
 		setImageUrl(null);
 	};
 
+	const handleAdd = () => {
+		if (fileName && resizedImageUrl) {
+			props.onAdd(fileName, resizedImageUrl);
+			setFileName(null);
+			setResizedImageUrl(null);
+			setIsUploadingVisible(false);
+		}
+	};
+
 	return (
 		<>
 			<div className={clsx(s['upload-button-wrapper'])}>
@@ -81,10 +90,13 @@ const UploadImage = ({ onOpenFullImage }: UploadImageProps) => {
 							imageUrl={resizedImageUrl}
 							imageName={fileName}
 							onRemove={handleRemoveImage}
-							onOpenFullImage={onOpenFullImage}
+							onOpenFullImage={props.onOpenFullImage}
 						/>
 						<div className={clsx(s['upload-image__send'])}>
-							<button className={clsx('button_primary')}>
+							<button
+								type='button'
+								onClick={handleAdd}
+								className={clsx('button_primary')}>
 								Отправить изображение
 							</button>
 						</div>

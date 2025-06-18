@@ -6,21 +6,18 @@ interface FullScreenImageProps {
 	onClickEndViewButton: () => void;
 }
 
-const FullScreenImage = ({
-	imageUrl,
-	onClickEndViewButton,
-}: FullScreenImageProps) => {
+const FullScreenImage = (props: FullScreenImageProps) => {
 	return (
 		<div className={clsx(s['full-screen-container'])}>
 			<img
-				src={imageUrl}
+				src={props.imageUrl}
 				alt='Картинка'
 				className={clsx(s['full-screen-image'])}
 			/>
 			<div className={clsx(s['end-view-wrapper'])}>
 				<button
 					className={clsx('button_primary')}
-					onClick={() => onClickEndViewButton()}>
+					onClick={() => props.onClickEndViewButton()}>
 					Закрыть
 				</button>
 			</div>

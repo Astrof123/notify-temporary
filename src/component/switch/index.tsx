@@ -1,20 +1,18 @@
+import { useCallback, useId } from 'react';
 import clsx from 'clsx';
 import s from './switch.module.scss';
-import { useCallback, useId, useState } from 'react';
 
 interface SwitchProps {
 	isUsed: boolean;
-	onSwitch?: () => void;
+	onSwitch?: (checked: boolean) => void;
 }
 
-const Switch = ({ isUsed, onSwitch }: SwitchProps) => {
+const Switch = (props: SwitchProps) => {
 	const id = useId();
-	const [checked, setChecked] = useState<boolean>(isUsed);
 
 	const handleChange = useCallback(() => {
-		setChecked(!checked);
-		onSwitch?.();
-	}, [checked, onSwitch]);
+		props.onSwitch?.(!props.isUsed);
+	}, [props.isUsed, props.onSwitch]);
 
 	return (
 		<label
@@ -24,7 +22,7 @@ const Switch = ({ isUsed, onSwitch }: SwitchProps) => {
 			<input
 				type='checkbox'
 				id={id}
-				checked={checked}
+				checked={props.isUsed}
 				onChange={handleChange}
 			/>
 			<span className={clsx(s.slider, s.round)}></span>

@@ -45,3 +45,24 @@ button {
 a.no-link {
 	text-decoration: none;
 }
+
+.loading-text {
+	font-size: 18px;
+	text-align: center;
+}
+
+.error-text {
+	color: red;
+	font-size: 18px;
+	text-align: center;
+}
+
+.error-text_small {
+	font-size: 16px;
+}
+
+.empty-list-text {
+	width: 100%;
+	font-size: 18px;
+	text-align: center;
+}
