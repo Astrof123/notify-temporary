@@ -2,36 +2,80 @@ import clsx from 'clsx';
 import s from './datetime-picker.module.scss';
 import '../../styles.css';
 import calendar from '../../images/calendar.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ArrowButton from '../arrow-button';
 import CalendarDisplay from '../calendar-display';
+import CloseButton from '../close-button';
 
 const DatetimePicker = () => {
-	const [startDate, setStartDate] = useState(null);
-	const [endDate, setEndDate] = useState(null);
+	const datetimeInputRef = useRef<HTMLDivElement>(null);
+	const datetimePickerRef = useRef<HTMLDivElement>(null);
+
+	const [startDate, setStartDate] = useState<Date>();
+	const [hoverDate, setHoverDate] = useState<Date>();
+	const [endDate, setEndDate] = useState<Date>();
 	const [leftDate, setLeftDate] = useState<Date>(new Date());
 	const [rightDate, setRightDate] = useState<Date>(new Date());
 
-	const [focused, setFocused] = useState(true);
+	const [focused, setFocused] = useState(false);
+
+	function setDisplayDates(newleft: Date) {
+		const copy = new Date(newleft);
+		copy.setDate(1);
+		setLeftDate(copy);
+		const next = new Date(copy.getFullYear(), copy.getMonth() + 1, 1);
+		setRightDate(next);
+	}
+
+	function resetData() {
+		setStartDate(undefined);
+		setHoverDate(undefined);
+		setEndDate(undefined);
+		setFocused(false);
+
+		setDisplayDates(new Date());
+	}
 
 	useEffect(() => {
-		setStartDate(null);
-		setEndDate(null);
+		if (startDate) {
+			setDisplayDates(startDate);
+		}
+	}, [focused]);
 
-		const current = new Date();
-		current.setDate(1);
-		setLeftDate(current);
-		const next = new Date(current.getFullYear(), current.getMonth() + 1, 1);
-		setRightDate(next);
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				datetimeInputRef.current &&
+				!datetimeInputRef.current.contains(event.target as Node) &&
+				datetimePickerRef.current &&
+				!datetimePickerRef.current.contains(event.target as Node)
+			) {
+				setFocused(false);
+			}
+		};
+
+		resetData();
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
 	}, []);
+
+	function formatDate(date: Date) {
+		let d = String(date.getDate());
+		let m = String(date.getMonth() + 1);
+		d = d.length < 2 ? `0${d}` : d;
+		m = m.length < 2 ? `0${m}` : m;
+		return `${d}.${m}.${date.getFullYear()}`;
+	}
 
 	function getInputText() {
 		if (!startDate && !endDate) {
 			return focused ? '' : 'Период';
 		} else if (!endDate) {
-			return `${startDate}-`;
+			return `${formatDate(startDate!)} -`;
 		} else {
-			return `${startDate}-${endDate}`;
+			return `${formatDate(startDate!)} - ${formatDate(endDate!)}`;
 		}
 	}
 
@@ -73,19 +117,43 @@ const DatetimePicker = () => {
 		);
 	}
 
+	function handleDateClick(date: Date) {
+		if (!startDate) {
+			setStartDate(date);
+		} else if (!endDate && hoverDate) {
+			setEndDate(date);
+			setHoverDate(undefined);
+			setFocused(false);
+		} else {
+			setStartDate(date);
+			setEndDate(undefined);
+		}
+	}
+
+	function handleDateHover(date?: Date) {
+		setHoverDate(date);
+	}
+
 	return (
 		<div className={clsx(s['datetime-picker-container'])}>
 			<div
-				className={clsx(s['datetime-input'])}
+				className={clsx(
+					s['datetime-input'],
+					(startDate || endDate) && s['filled']
+				)}
 				tabIndex={0}
 				role='button'
 				onClick={handleInputClick}
-				onKeyDown={handleInputKeyDown}>
+				onKeyDown={handleInputKeyDown}
+				ref={datetimeInputRef}>
 				<span className={clsx(s['input-text'])}>{getInputText()}</span>
-				<img src={calendar} alt='calendar' />
+				<div className={clsx(s['left-box'])}>
+					{(startDate || endDate) && <CloseButton onClick={resetData} />}
+					<img src={calendar} alt='calendar' />
+				</div>
 			</div>
 			{focused && (
-				<div className={clsx(s['datetime-picker'])}>
+				<div className={clsx(s['datetime-picker'])} ref={datetimePickerRef}>
 					<div className={clsx(s['calendar'])}>
 						<div className={clsx(s['calendar-header'], s['left'])}>
 							<ArrowButton isRight={false} onClick={() => leafMonths(false)} />
@@ -93,7 +161,15 @@ const DatetimePicker = () => {
 								{getDateMonthYear(leftDate)}
 							</span>
 						</div>
-						<CalendarDisplay date={leftDate} isRight={false} />
+						<CalendarDisplay
+							date={leftDate}
+							isRight={false}
+							startDate={startDate}
+							hoverDate={hoverDate}
+							endDate={endDate}
+							onDateClick={handleDateClick}
+							onDateHover={handleDateHover}
+						/>
 					</div>
 					<div className={clsx(s['calendar'])}>
 						<div className={clsx(s['calendar-header'], s['right'])}>
@@ -102,7 +178,15 @@ const DatetimePicker = () => {
 							</span>
 							<ArrowButton isRight={true} onClick={() => leafMonths(true)} />
 						</div>
-						<CalendarDisplay date={rightDate} isRight={true} />
+						<CalendarDisplay
+							date={rightDate}
+							isRight={true}
+							startDate={startDate}
+							hoverDate={hoverDate}
+							endDate={endDate}
+							onDateClick={handleDateClick}
+							onDateHover={handleDateHover}
+						/>
 					</div>
 				</div>
 			)}

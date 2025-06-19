@@ -1,0 +1,17 @@
+.close-button {
+	width: 24px;
+	height: 24px;
+	box-sizing: border-box;
+	padding: 7px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-shrink: 0;
+
+	border-radius: 50%;
+}
+
+.close-button:hover {
+	background-color: #eeeeee;
+}

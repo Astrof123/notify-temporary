@@ -1,5 +1,10 @@
 :root {
 	--picker-width: 760px;
+	--main-color: #f04923;
+	--border-color: #a7a9ac;
+	--border-color-filled: #1e1e1e;
+	--text-primaty-color: #1e1e1e;
+	--text-secondary-color: #8e8e8e;
 }
 
 .datetime-picker-container {
@@ -20,8 +25,8 @@
 
 	outline: 0;
 	border-radius: 16px;
-	border: 1px solid #a7a9ac;
-	color: #a7a9ac;
+	border: 1px solid var(--border-color);
+	color: var(--text-secondary-color);
 	font-weight: 300;
 	font-size: 16px;
 	font-family: inherit;
@@ -29,19 +34,31 @@
 	cursor: pointer;
 }
 
-.datetime-input:hover {
-	border: 1px solid #f04923;
+.datetime-input.filled {
+	border: 1px solid var(--border-color-filled);
+	color: var(--text-primaty-color);
 }
 
-.datetime-input:focus {
-	border: 2px solid #f04923;
+.datetime-input:hover,
+.datetime-input.filled:hover {
+	border: 1px solid var(--main-color);
+}
+
+.datetime-input:focus,
+.datetime-input.filled:focus {
+	border: 2px solid var(--main-color);
 }
 
 span.input-text {
 	width: 100%;
 }
 
-.datetime-input > img {
+.datetime-input > .left-box {
+	display: flex;
+	column-gap: 4px;
+}
+
+.left-box > img {
 	user-select: none;
 }
 
