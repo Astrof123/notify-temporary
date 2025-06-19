@@ -9,11 +9,7 @@ const Layout = (props: LayoutProps) => {
 		<div>
 			<Header />
 			<main>{props.children}</main>
-			<ToastContainer
-				position='bottom-right'
-				hideProgressBar={true}
-				autoClose={false}
-			/>
+			<ToastContainer position='bottom-right' hideProgressBar={true} />
 		</div>
 	);
 };

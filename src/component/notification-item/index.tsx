@@ -24,6 +24,7 @@ const NotificationItem = (props: NotificationItemProps) => {
 		try {
 			await notificationList.deleteItem(props.notification.id);
 			props.onUpdateData();
+			notify('Уведомление успешно удалено', MessageType.Success, 'Понятно');
 		} catch (e: unknown) {
 			let errorMessage = 'Ошибка при удалении уведомления.';
 			if (e instanceof Error) {

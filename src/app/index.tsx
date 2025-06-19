@@ -2,7 +2,7 @@ import { Main, Gallery } from '../pages';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import NotifyPage from '../pages/notification';
 import '../styles.css';
-import Layout from '../component/Layout';
+import Layout from '../component/layout';
 
 export const App = () => {
 	const location = useLocation();

@@ -32,7 +32,7 @@ function Gallery() {
 		} finally {
 			setLoading(false);
 		}
-	}, [notify]);
+	}, []);
 
 	const handleRemove = useCallback(
 		async (imageId?: number) => {
@@ -56,7 +56,7 @@ function Gallery() {
 				setLoading(false);
 			}
 		},
-		[fetchData, notify]
+		[fetchData]
 	);
 
 	const handleAdd = useCallback(
@@ -81,7 +81,7 @@ function Gallery() {
 				setLoading(false);
 			}
 		},
-		[fetchData, notify]
+		[fetchData]
 	);
 
 	useEffect(() => {
