@@ -9,22 +9,18 @@ interface SwitchProps {
 
 const Switch = (props: SwitchProps) => {
 	const id = useId();
+	const { isUsed, onSwitch } = props;
 
 	const handleChange = useCallback(() => {
-		props.onSwitch?.(!props.isUsed);
-	}, [props.isUsed, props.onSwitch]);
+		onSwitch?.(!isUsed);
+	}, [isUsed, onSwitch]);
 
 	return (
 		<label
 			className={clsx(s.switch)}
 			htmlFor={id}
 			title='Активировать/Деактивировать уведомление'>
-			<input
-				type='checkbox'
-				id={id}
-				checked={props.isUsed}
-				onChange={handleChange}
-			/>
+			<input type='checkbox' id={id} checked={isUsed} onChange={handleChange} />
 			<span className={clsx(s.slider, s.round)}></span>
 		</label>
 	);

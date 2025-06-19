@@ -5,10 +5,6 @@ import logo from '../../images/logo.svg';
 
 function Header() {
 	const location = useLocation();
-	const state = location.state as { backgroundLocation?: Location };
-
-	console.log(location);
-	console.log(state);
 
 	return (
 		<>

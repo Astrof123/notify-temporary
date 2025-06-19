@@ -15,6 +15,8 @@ function Search(props: SearchProps) {
 		props.onValueChanged?.(event.target.value);
 	}
 
+	const onSubmit = props.onSubmit;
+
 	const handleSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
@@ -22,9 +24,9 @@ function Search(props: SearchProps) {
 			const searchElement = form.querySelector(
 				'[name="search"]'
 			) as HTMLInputElement;
-			props.onSubmit?.(searchElement.value);
+			onSubmit?.(searchElement.value);
 		},
-		[props.onSubmit]
+		[onSubmit]
 	);
 
 	return (

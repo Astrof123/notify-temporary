@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
-import Header from '../../component/header';
 import NotificationList from '../../component/notification-list';
 import Search from '../../component/search';
 
@@ -18,7 +17,6 @@ function Main() {
 
 	return (
 		<>
-			<Header />
 			<div className={clsx(s['search-bar-container'])}>
 				<div className={clsx(s['search-input-container'])}>
 					<Search placeholder={'Поиск уведомления'} onSubmit={handleSearch} />

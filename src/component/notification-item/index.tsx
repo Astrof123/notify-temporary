@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import clsx from 'clsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ import { notificationList } from '../../utils/api/notification-list';
 import pencil from '../../images/pencil.png';
 import rubbish from '../../images/rubbish.png';
 import s from './notification-item.module.scss';
-import SmallModal from '../small-modal';
+import { useToast } from '../../hook/useToast';
 import { MessageType } from '../../types/message-type';
 
 interface NotificationItemProps {
@@ -18,11 +18,9 @@ interface NotificationItemProps {
 
 const NotificationItem = (props: NotificationItemProps) => {
 	const navigate = useNavigate();
-	const [error, setError] = useState<string | null>(null);
-	const [isSmallModalOpen, setIsSmallModalOpen] = useState<boolean>(false);
+	const { notify } = useToast();
 
 	const handleDelete = useCallback(async () => {
-		setError(null);
 		try {
 			await notificationList.deleteItem(props.notification.id);
 			props.onUpdateData();
@@ -32,15 +30,12 @@ const NotificationItem = (props: NotificationItemProps) => {
 				errorMessage = `Ошибка при удалении уведомления: ${e.message}`;
 			}
 			console.error(errorMessage, e);
-			setError(errorMessage);
-			setIsSmallModalOpen(true);
+			notify(errorMessage, MessageType.Error, 'Понятно');
 		}
 	}, [props.notification.id, props.onUpdateData]);
 
 	const handleActivate = useCallback(
 		async (checked: boolean) => {
-			setError(null);
-
 			try {
 				await notificationList.updateItem(props.notification.id, checked);
 				props.onUpdateData();
@@ -50,8 +45,7 @@ const NotificationItem = (props: NotificationItemProps) => {
 					errorMessage = `Ошибка при активации уведомления: ${e.message}`;
 				}
 				console.error(errorMessage, e);
-				setError(errorMessage);
-				setIsSmallModalOpen(true);
+				notify(errorMessage, MessageType.Error, 'Понятно');
 			}
 		},
 		[props.notification.id, props.onUpdateData]
@@ -60,11 +54,6 @@ const NotificationItem = (props: NotificationItemProps) => {
 	const handleEdit = useCallback(() => {
 		navigate(`/change-notify?notificationId=${props.notification.id}`);
 	}, [navigate, props.notification.id]);
-
-	const handleCloseSmallModal = useCallback(() => {
-		setIsSmallModalOpen(false);
-		setError(null);
-	}, []);
 
 	return (
 		<>
@@ -102,15 +91,6 @@ const NotificationItem = (props: NotificationItemProps) => {
 					</div>
 				</td>
 			</tr>
-			{error && (
-				<SmallModal
-					isOpen={isSmallModalOpen}
-					onClose={handleCloseSmallModal}
-					message={error}
-					messageType={MessageType.Error}
-					buttonText='Понятно'
-				/>
-			)}
 		</>
 	);
 };
