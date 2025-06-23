@@ -7,6 +7,8 @@ import { Periodicity } from '../../models/notification-time/Periodicity';
 import PeriodicitySelector from '../periodicity-selector';
 import NumberSlider from '../number-slider';
 import CheckboxWithLabel from '../checkbox-with-label';
+import DatetimePeriodPicker from '../datetime-period-picker';
+import TimePicker from '../time-picker';
 import DatetimePicker from '../datetime-picker';
 
 const NotificationTimeSettings = () => {
@@ -18,7 +20,7 @@ const NotificationTimeSettings = () => {
 		{ title: 'Квартальное', value: Periodicity.QUARTERLY },
 		{ title: 'Ежегодное', value: Periodicity.ANNUAL },
 	];
-	const [periodicity, setPeriodicity] = useState(Periodicity.ONETIME);
+	const [periodicity, setPeriodicity] = useState(Periodicity.DAILY);
 	const [timeDisplay, setTimeDisplay] = useState(0);
 	const [withoutTimeDisplay, setWithoutTimeDisplay] = useState(false);
 
@@ -53,7 +55,14 @@ const NotificationTimeSettings = () => {
 					title={'Период активности уведомления'}
 					required={true}
 				/>
-				<DatetimePicker />
+				<div className={clsx(s['datetime-pickers'])}>
+					{periodicity === Periodicity.ONETIME ? (
+						<DatetimePicker />
+					) : (
+						<DatetimePeriodPicker />
+					)}
+					<TimePicker />
+				</div>
 			</div>
 			<div className={clsx('content')}>
 				<FormSectionTitle

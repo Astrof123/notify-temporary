@@ -3,19 +3,20 @@ import s from './calendar-display.module.scss';
 import '../../styles.css';
 import { useEffect, useState } from 'react';
 import CalendarDateCell from '../calendar-date-cell';
+import { weekDays } from '../../utils/consts';
+import { areSameDate, isDateLater } from '../../utils/funcs';
 
 interface CalendarDisplayProps {
 	date: Date;
-	isRight: boolean;
+	isDoublePick: boolean;
 	startDate?: Date;
 	hoverDate?: Date;
 	endDate?: Date;
 	onDateClick: (arg: Date) => void;
-	onDateHover: (arg?: Date) => void;
+	onDateHover?: (arg?: Date) => void;
 }
 
 const CalendarDisplay = (props: CalendarDisplayProps) => {
-	const weekDays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 	const [dates, setDates] = useState<(Date | undefined)[]>([]);
 
 	useEffect(() => {
@@ -41,12 +42,62 @@ const CalendarDisplay = (props: CalendarDisplayProps) => {
 		setDates(arr);
 	}, [props.date]);
 
+	function getDateClass(date?: Date) {
+		if (date) {
+			if (props.isDoublePick) {
+				if (areSameDate(props.startDate, date)) {
+					return 'start';
+				} else if (areSameDate(props.endDate, date)) {
+					return 'end';
+				} else if (props.startDate && !props.endDate) {
+					if (date < props.startDate) {
+						return 'disabled';
+					}
+					if (props.hoverDate) {
+						if (areSameDate(date, props.hoverDate) && date > props.startDate) {
+							return 'end';
+						}
+						if (date > props.startDate && date < props.hoverDate) {
+							return 'between';
+						}
+					}
+				} else if (props.startDate && props.endDate) {
+					if (date > props.startDate && date < props.endDate) {
+						return 'between';
+					}
+				}
+			} else {
+				return areSameDate(date, props.startDate) ? 'chosen' : '';
+			}
+		} else {
+			return 'empty';
+		}
+	}
+
+	function handleCellClick(date?: Date) {
+		if (date) {
+			if (props.isDoublePick) {
+				if (!props.startDate) {
+					props.onDateClick(date);
+				} else {
+					if (isDateLater(props.hoverDate, props.startDate) || props.endDate) {
+						props.onDateClick(date);
+					}
+				}
+			} else {
+				props.onDateClick(date);
+			}
+		}
+	}
+
+	function handleCellHover(date?: Date) {
+		if (props.onDateHover) {
+			props.onDateHover(date);
+		}
+	}
+
 	return (
-		<div
-			className={clsx(
-				s['calendar-display'],
-				props.isRight ? s['right'] : s['left']
-			)}>
+		<div className={clsx(s['calendar-display'])}>
 			<div className={clsx(s['week-days-header'])}>
 				{weekDays.map((day, index) => (
 					<span key={index} className={clsx(s['week-day'])}>
@@ -59,11 +110,10 @@ const CalendarDisplay = (props: CalendarDisplayProps) => {
 					<CalendarDateCell
 						key={index}
 						date={date}
-						startDate={props.startDate}
-						hoverDate={props.hoverDate}
-						endDate={props.endDate}
-						onClick={props.onDateClick}
-						onHover={props.onDateHover}
+						styleClass={getDateClass(date) ?? ''}
+						isToday={areSameDate(date, new Date())}
+						onClick={handleCellClick}
+						onHover={handleCellHover}
 					/>
 				))}
 			</div>

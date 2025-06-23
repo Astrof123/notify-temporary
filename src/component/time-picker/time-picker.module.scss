@@ -1,5 +1,4 @@
 :root {
-	--calendar-width: 368px;
 	--main-color: #f04923;
 	--border-color: #a7a9ac;
 	--border-color-filled: #1e1e1e;
@@ -7,14 +6,14 @@
 	--text-secondary-color: #8e8e8e;
 }
 
-.datetime-picker-container {
+.time-picker-container {
 	display: inline-flex;
 	flex-direction: column;
 	position: relative;
 }
 
-.datetime-input {
-	width: 300px;
+.time-input {
+	width: 150px;
 	height: 60px;
 	box-sizing: border-box;
 	padding: 16px;
@@ -25,8 +24,8 @@
 
 	outline: 0;
 	border-radius: 16px;
-	border: 1px solid var(--border-color);
-	color: var(--text-secondary-color);
+	border: 1px solid var(--border-color-filled);
+	color: var(--text-primaty-color);
 	font-weight: 300;
 	font-size: 16px;
 	font-family: inherit;
@@ -34,18 +33,11 @@
 	cursor: pointer;
 }
 
-.datetime-input.filled {
-	border: 1px solid var(--border-color-filled);
-	color: var(--text-primaty-color);
-}
-
-.datetime-input:hover,
-.datetime-input.filled:hover {
+.time-input:hover {
 	border: 1px solid var(--main-color);
 }
 
-.datetime-input:focus,
-.datetime-input.filled:focus {
+.time-input:focus {
 	border: 2px solid var(--main-color);
 }
 
@@ -53,20 +45,24 @@ span.input-text {
 	width: 100%;
 }
 
-.datetime-input > .left-box {
+.time-input > .left-box {
 	display: flex;
 	column-gap: 4px;
+	align-items: center;
 }
 
 .left-box > img {
+	width: 18px;
+	height: 18px;
 	user-select: none;
 }
 
-.datetime-picker {
+.time-picker {
 	padding: 16px;
 
-	display: flex;
-	column-gap: 20px;
+	display: inline-flex;
+	flex-direction: column;
+	row-gap: 8px;
 
 	position: absolute;
 	top: calc(100% + 8px);
@@ -77,29 +73,4 @@ span.input-text {
 	background: white;
 	box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12),
 		0px 12px 20px 0px rgba(0, 0, 0, 0.14);
-}
-
-.calendar-box {
-	width: var(--calendar-width);
-
-	display: flex;
-	flex-direction: column;
-	row-gap: 20px;
-}
-
-.calendar-header {
-	box-sizing: border-box;
-	padding: 0 12px;
-
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-span.month-year {
-	width: 100%;
-	flex: 1 0 0;
-	font-weight: 500;
-	font-size: 18px;
-	text-align: center;
 }

@@ -1,46 +1,32 @@
 import clsx from 'clsx';
 import s from './datetime-picker.module.scss';
 import '../../styles.css';
+import { useState, useRef, useEffect } from 'react';
+import { Time } from '../../models/notification-time/Time';
+import CloseButton from '../close-button';
 import calendar from '../../images/calendar.svg';
-import { useEffect, useRef, useState } from 'react';
 import ArrowButton from '../arrow-button';
 import CalendarDisplay from '../calendar-display';
-import CloseButton from '../close-button';
+import TimeDisplay from '../time-display';
+import { monthYearLabel } from '../../utils/funcs';
 
 const DatetimePicker = () => {
 	const datetimeInputRef = useRef<HTMLDivElement>(null);
 	const datetimePickerRef = useRef<HTMLDivElement>(null);
 
-	const [startDate, setStartDate] = useState<Date>();
-	const [hoverDate, setHoverDate] = useState<Date>();
-	const [endDate, setEndDate] = useState<Date>();
-	const [leftDate, setLeftDate] = useState<Date>(new Date());
-	const [rightDate, setRightDate] = useState<Date>(new Date());
-
+	const [dateDisplay, setDateDisplay] = useState<Date>(new Date());
+	const [date, setDate] = useState<Date>();
+	const [time, setTime] = useState<Time>(new Time(0, 0));
 	const [focused, setFocused] = useState(false);
 
-	function setDisplayDates(newleft: Date) {
-		const copy = new Date(newleft);
-		copy.setDate(1);
-		setLeftDate(copy);
-		const next = new Date(copy.getFullYear(), copy.getMonth() + 1, 1);
-		setRightDate(next);
-	}
-
 	function resetData() {
-		setStartDate(undefined);
-		setHoverDate(undefined);
-		setEndDate(undefined);
+		setDate(undefined);
+		setTime(new Time(0, 0));
+		const d = new Date();
+		d.setDate(1);
+		setDateDisplay(d);
 		setFocused(false);
-
-		setDisplayDates(new Date());
 	}
-
-	useEffect(() => {
-		if (startDate) {
-			setDisplayDates(startDate);
-		}
-	}, [focused]);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -61,22 +47,33 @@ const DatetimePicker = () => {
 		};
 	}, []);
 
-	function formatDate(date: Date) {
-		let d = String(date.getDate());
-		let m = String(date.getMonth() + 1);
-		d = d.length < 2 ? `0${d}` : d;
-		m = m.length < 2 ? `0${m}` : m;
-		return `${d}.${m}.${date.getFullYear()}`;
+	function isEmpty() {
+		return !date && time.hour === 0 && time.minute === 0;
+	}
+
+	function formatDate(date?: Date) {
+		if (date) {
+			let d = String(date.getDate());
+			let m = String(date.getMonth() + 1);
+			d = d.length < 2 ? `0${d}` : d;
+			m = m.length < 2 ? `0${m}` : m;
+			return `${d}.${m}.${date.getFullYear()}`;
+		} else {
+			return '00.00.0000';
+		}
 	}
 
 	function getInputText() {
-		if (!startDate && !endDate) {
-			return focused ? '' : 'Период';
-		} else if (!endDate) {
-			return `${formatDate(startDate!)} -`;
-		} else {
-			return `${formatDate(startDate!)} - ${formatDate(endDate!)}`;
-		}
+		return isEmpty()
+			? 'Дата и время'
+			: `${formatDate(date)} ${time.toString()}`;
+	}
+
+	function leafMonths(isNext: boolean) {
+		const sign = isNext ? 1 : -1;
+		setDateDisplay(
+			new Date(dateDisplay.getFullYear(), dateDisplay.getMonth() + 1 * sign, 1)
+		);
 	}
 
 	function handleInputClick() {
@@ -84,63 +81,21 @@ const DatetimePicker = () => {
 	}
 
 	function handleInputKeyDown(event: React.KeyboardEvent) {
-		if (event.key === 'Enter') {
+		if (event.code === 'Enter') {
 			handleInputClick();
 		}
 	}
 
-	function getDateMonthYear(date: Date) {
-		const months = [
-			'Январь',
-			'Февраль',
-			'Март',
-			'Апрель',
-			'Май',
-			'Июнь',
-			'Июль',
-			'Август',
-			'Сентябрь',
-			'Октябрь',
-			'Ноябрь',
-			'Декабрь',
-		];
-		return `${months[date.getMonth()]} ${date.getFullYear()}`;
-	}
-
-	function leafMonths(isNext: boolean) {
-		const sign = isNext ? 1 : -1;
-		setLeftDate(
-			new Date(leftDate.getFullYear(), leftDate.getMonth() + 1 * sign, 1)
-		);
-		setRightDate(
-			new Date(rightDate.getFullYear(), rightDate.getMonth() + 1 * sign, 1)
-		);
-	}
-
-	function handleDateClick(date: Date) {
-		if (!startDate) {
-			setStartDate(date);
-		} else if (!endDate && hoverDate) {
-			setEndDate(date);
-			setHoverDate(undefined);
-			setFocused(false);
-		} else {
-			setStartDate(date);
-			setEndDate(undefined);
+	function handleCellClick(date?: Date) {
+		if (date) {
+			setDate(date);
 		}
-	}
-
-	function handleDateHover(date?: Date) {
-		setHoverDate(date);
 	}
 
 	return (
 		<div className={clsx(s['datetime-picker-container'])}>
 			<div
-				className={clsx(
-					s['datetime-input'],
-					(startDate || endDate) && s['filled']
-				)}
+				className={clsx(s['datetime-input'], date && s['filled'])}
 				tabIndex={0}
 				role='button'
 				onClick={handleInputClick}
@@ -148,45 +103,29 @@ const DatetimePicker = () => {
 				ref={datetimeInputRef}>
 				<span className={clsx(s['input-text'])}>{getInputText()}</span>
 				<div className={clsx(s['left-box'])}>
-					{(startDate || endDate) && <CloseButton onClick={resetData} />}
+					{date && <CloseButton onClick={resetData} />}
 					<img src={calendar} alt='calendar' />
 				</div>
 			</div>
 			{focused && (
 				<div className={clsx(s['datetime-picker'])} ref={datetimePickerRef}>
-					<div className={clsx(s['calendar'])}>
-						<div className={clsx(s['calendar-header'], s['left'])}>
+					<div className={clsx(s['calendar-box'])}>
+						<div className={clsx(s['calendar-header'])}>
 							<ArrowButton isRight={false} onClick={() => leafMonths(false)} />
 							<span className={clsx(s['month-year'])}>
-								{getDateMonthYear(leftDate)}
-							</span>
-						</div>
-						<CalendarDisplay
-							date={leftDate}
-							isRight={false}
-							startDate={startDate}
-							hoverDate={hoverDate}
-							endDate={endDate}
-							onDateClick={handleDateClick}
-							onDateHover={handleDateHover}
-						/>
-					</div>
-					<div className={clsx(s['calendar'])}>
-						<div className={clsx(s['calendar-header'], s['right'])}>
-							<span className={clsx(s['month-year'])}>
-								{getDateMonthYear(rightDate)}
+								{monthYearLabel(dateDisplay)}
 							</span>
 							<ArrowButton isRight={true} onClick={() => leafMonths(true)} />
 						</div>
 						<CalendarDisplay
-							date={rightDate}
-							isRight={true}
-							startDate={startDate}
-							hoverDate={hoverDate}
-							endDate={endDate}
-							onDateClick={handleDateClick}
-							onDateHover={handleDateHover}
+							date={dateDisplay}
+							isDoublePick={false}
+							startDate={date}
+							onDateClick={handleCellClick}
 						/>
+					</div>
+					<div className={clsx(s['time-display-box'])}>
+						<TimeDisplay time={time} itemsToShow={5} onChange={setTime} />
 					</div>
 				</div>
 			)}

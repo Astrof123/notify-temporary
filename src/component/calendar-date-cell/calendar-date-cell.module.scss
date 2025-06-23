@@ -2,6 +2,7 @@
 	--main-color: #f04923;
 	--main-hover-color: #d63f1d;
 	--secondary-color: #feede9;
+	--contrast-color: #00504e;
 }
 
 .date-cell {
@@ -40,7 +41,8 @@
 }
 
 .date-cell.start .date,
-.date-cell.end .date {
+.date-cell.end .date,
+.date-cell.chosen .date {
 	background-color: var(--main-color);
 	color: white;
 }
@@ -64,10 +66,11 @@
 }
 
 .date-cell.start .date:hover,
-.date-cell.end .date:hover {
+.date-cell.end .date:hover,
+.date-cell.chosen .date:hover {
 	background-color: var(--main-hover-color);
 }
 
 .date-cell.today .date {
-	border: 1px solid var(--main-color);
+	border: 1px solid var(--contrast-color);
 }
