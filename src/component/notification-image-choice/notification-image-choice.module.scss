@@ -1,0 +1,28 @@
+:root {
+	--border-radius: 16px;
+}
+
+.notification-image-choice-container {
+	resize: none;
+	overflow: unset;
+}
+
+.images-container-wrapper {
+	overflow: hidden;
+	display: inline-flex;
+	border-radius: var(--border-radius);
+}
+
+.images-container {
+	max-height: 500px;
+	box-sizing: border-box;
+	padding: 16px;
+	overflow-y: auto;
+
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.2em;
+
+	border-radius: var(--border-radius);
+	border: 1px solid black;
+}

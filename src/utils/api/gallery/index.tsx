@@ -1,22 +1,6 @@
-import { ImageView } from '../../../types/image-view';
+import { notificationImages } from '../../consts';
 
-let data: ImageView[] = [
-	{
-		id: 1,
-		name: 'sky.png',
-		url: 'https://storage.needpix.com/thumbs/landscape-1972370_1280.jpg',
-	},
-	{
-		id: 2,
-		name: 'sea.png',
-		url: 'https://storage.needpix.com/thumbs/sunset-1032608_1280.jpg',
-	},
-	{
-		id: 3,
-		name: 'aurora.png',
-		url: 'https://cdn.troubleflight.com/destinations/airports/AES.jpg?w=500&h=200&resize=false&type=webp',
-	},
-];
+let data = [...notificationImages];
 
 const get = async () => {
 	// const data = await request.get('');

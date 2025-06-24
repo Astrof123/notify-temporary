@@ -1,0 +1,48 @@
+:root {
+	--item-hover-color: rgba(59, 75, 74, 0.479);
+	--item-selected-color: #00504e;
+	--border-radius: 10px;
+}
+
+label.notification-image-selector {
+	width: calc(100% / 3 - 0.2em);
+	display: inline-flex;
+	overflow: hidden;
+
+	border-radius: var(--border-radius);
+	cursor: pointer;
+}
+
+input.radio {
+	display: none;
+}
+
+input.radio + .selector-content {
+	box-sizing: border-box;
+	padding: 0.8em;
+
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.2em;
+}
+
+input.radio:not(:checked) + .selector-content:hover {
+	outline: 0;
+	background-color: var(--item-hover-color);
+	color: white;
+}
+
+input.radio:checked + .selector-content {
+	background-color: var(--item-selected-color);
+	color: white;
+	cursor: auto;
+}
+
+img.image {
+	width: 100%;
+	user-select: none;
+}
+
+span.title {
+	text-align: center;
+}

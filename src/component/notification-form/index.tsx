@@ -5,6 +5,7 @@ import TargetsChoiceTree from '../targets-choice-tree';
 import FormInput from '../form-input';
 import FormTextarea from '../form-textarea';
 import NotificationTimeSettings from '../notification-time-settings';
+import NotificationImageChoice from '../notification-image-choice';
 
 interface NotificationFormProps {
 	notificationData?: object;
@@ -43,6 +44,14 @@ const NotificationForm = (props: NotificationFormProps) => {
 				</div>
 				<div className={clsx(s['row'])}>
 					<NotificationTimeSettings />
+				</div>
+				<div className={clsx(s['row'])}>
+					<NotificationImageChoice />
+				</div>
+				<div className={clsx(s['row'])}>
+					<button className={clsx('button_primary')}>
+						Добавить уведомление
+					</button>
 				</div>
 			</div>
 		</div>
