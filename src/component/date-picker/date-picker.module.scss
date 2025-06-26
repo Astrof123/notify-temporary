@@ -1,5 +1,6 @@
 :root {
-	--picker-width: 760px;
+	--input-width: 220px;
+	--calendar-width: 368px;
 	--main-color: #f04923;
 	--border-color: #a7a9ac;
 	--border-color-filled: #1e1e1e;
@@ -7,14 +8,14 @@
 	--text-secondary-color: #8e8e8e;
 }
 
-.datetime-period-picker-container {
+.date-picker-container {
 	display: inline-flex;
 	flex-direction: column;
 	position: relative;
 }
 
-.datetime-input {
-	width: 400px;
+.date-input {
+	width: var(--input-width);
 	height: 60px;
 	box-sizing: border-box;
 	padding: 16px;
@@ -34,18 +35,18 @@
 	cursor: pointer;
 }
 
-.datetime-input.filled {
+.date-input.filled {
 	border: 1px solid var(--border-color-filled);
 	color: var(--text-primaty-color);
 }
 
-.datetime-input:hover,
-.datetime-input.filled:hover {
+.date-input:hover,
+.date-input.filled:hover {
 	border: 1px solid var(--main-color);
 }
 
-.datetime-input:focus,
-.datetime-input.filled:focus {
+.date-input:focus,
+.date-input.filled:focus {
 	border: 2px solid var(--main-color);
 }
 
@@ -53,7 +54,7 @@ span.input-text {
 	width: 100%;
 }
 
-.datetime-input > .left-box {
+.date-input > .left-box {
 	display: flex;
 	column-gap: 4px;
 }
@@ -62,14 +63,9 @@ span.input-text {
 	user-select: none;
 }
 
-.datetime-period-picker {
-	width: var(--picker-width);
-	padding: 0 16px 16px 16px;
-
+.date-picker {
+	padding: 16px;
 	display: flex;
-	flex-direction: column;
-	row-gap: 8px;
-
 	position: absolute;
 	top: calc(100% + 8px);
 	left: 0;
@@ -81,35 +77,21 @@ span.input-text {
 		0px 12px 20px 0px rgba(0, 0, 0, 0.14);
 }
 
-.calendars-box,
-.time-displays-box {
-	width: 100%;
+.calendar-box {
+	width: var(--calendar-width);
+
 	display: flex;
-	column-gap: 24px;
-}
-
-.calendar {
-	width: 100%;
-
-	display: inline-flex;
 	flex-direction: column;
-	row-gap: 8px;
+	row-gap: 20px;
 }
 
 .calendar-header {
+	box-sizing: border-box;
+	padding: 0 12px;
+
 	display: flex;
-	gap: 32px;
 	align-items: center;
-	align-self: stretch;
-}
-
-.calendar-header.left {
-	padding: 20px 64px 12px 12px;
-}
-
-.calendar-header.right {
-	padding: 20px 12px 12px 64px;
-	justify-content: flex-end;
+	justify-content: space-between;
 }
 
 span.month-year {
@@ -118,10 +100,4 @@ span.month-year {
 	font-weight: 500;
 	font-size: 18px;
 	text-align: center;
-}
-
-.time-display-wrapper {
-	width: 100%;
-	box-sizing: border-box;
-	display: flex;
 }

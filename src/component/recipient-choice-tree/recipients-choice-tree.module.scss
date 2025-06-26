@@ -4,7 +4,8 @@
 	column-gap: 20px;
 }
 
-.tree-section > div {
+.tree-section > .tree-container,
+.tree-section > .recipients-container {
 	display: flex;
 	flex-direction: column;
 	row-gap: 10px;

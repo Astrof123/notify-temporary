@@ -1,33 +1,33 @@
-export enum EntityType {
+export enum ERecipientType {
 	COMPANY,
 	DEPARTMENT,
-	PERSON,
+	ACCOUNT,
 }
 
 export abstract class BaseEntity {
 	chosen: boolean;
-	abstract type: EntityType;
+	abstract type: ERecipientType;
 	abstract canBeExpanded: boolean;
 
 	constructor() {
 		this.chosen = false;
 	}
 
-	abstract getId(): number;
+	abstract getId(): string;
 
 	abstract getName(): string;
 
 	abstract hasChildren(): boolean;
 
 	isCompany() {
-		return this.type === EntityType.COMPANY;
+		return this.type === ERecipientType.COMPANY;
 	}
 
 	isDepartment() {
-		return this.type === EntityType.DEPARTMENT;
+		return this.type === ERecipientType.DEPARTMENT;
 	}
 
 	isPerson() {
-		return this.type === EntityType.PERSON;
+		return this.type === ERecipientType.ACCOUNT;
 	}
 }

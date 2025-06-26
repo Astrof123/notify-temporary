@@ -1,4 +1,4 @@
-.arrow-button {
+.instrument-button {
 	box-sizing: border-box;
 	padding: 4px;
 
@@ -11,14 +11,14 @@
 	background-color: #f3f4f4;
 }
 
-.arrow-button:hover {
+.instrument-button:hover {
 	background-color: #eeeeee;
 }
 
-.arrow-button.right {
+.instrument-button.right-arrow {
 	transform: rotate(-90deg);
 }
 
-.arrow-button.left {
+.instrument-button.left-arrow {
 	transform: rotate(90deg);
 }

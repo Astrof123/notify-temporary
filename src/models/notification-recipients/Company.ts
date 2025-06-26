@@ -1,31 +1,31 @@
-import { BaseEntity, EntityType } from './BaseEntity';
+import { BaseEntity, ERecipientType } from './BaseEntity';
 import { Department } from './Department';
 import { Expanding } from './Expanding';
-import { Person } from './Person';
+import { Account } from './Account';
 
 export class Company extends BaseEntity implements Expanding {
-	type = EntityType.COMPANY;
+	type = ERecipientType.COMPANY;
 	canBeExpanded = true;
 
-	companyId: number;
+	companyId: string;
 	name: string;
 	departments: Department[];
-	persons: Person[];
+	accounts: Account[];
 
 	constructor(
-		companyId: number,
+		companyId: string,
 		name: string,
 		departments?: Department[],
-		persons?: Person[]
+		accounts?: Account[]
 	) {
 		super();
 		this.companyId = companyId;
 		this.name = name;
 		this.departments = departments ?? [];
-		this.persons = persons ?? [];
+		this.accounts = accounts ?? [];
 	}
 
-	getId(): number {
+	getId(): string {
 		return this.companyId;
 	}
 
@@ -34,6 +34,6 @@ export class Company extends BaseEntity implements Expanding {
 	}
 
 	hasChildren(): boolean {
-		return this.departments.length > 0 || this.persons.length > 0;
+		return this.departments.length > 0 || this.accounts.length > 0;
 	}
 }

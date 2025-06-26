@@ -1,18 +1,18 @@
 import clsx from 'clsx';
-import s from './periodicity-selector.module.scss';
+import s from './schedule-type-selector.module.scss';
 import '../../styles.css';
-import { Periodicity } from '../../models/notification-time/Periodicity';
+import { EScheduleType } from '../../models/notification-time/EScheduleType';
 import { useEffect, useState } from 'react';
 
-interface PeriodicitySelectorProps {
+interface ScheduleTypeSelectorProps {
 	title: string;
-	value: Periodicity;
+	value: EScheduleType;
 	isFirst: boolean;
-	current: Periodicity;
-	onSelected: (arg: Periodicity) => void;
+	current: EScheduleType;
+	onSelected: (arg: EScheduleType) => void;
 }
 
-const PeriodicitySelector = (props: PeriodicitySelectorProps) => {
+const ScheduleTypeSelector = (props: ScheduleTypeSelectorProps) => {
 	const [checked, setChecked] = useState(props.isFirst);
 
 	useEffect(() => {
@@ -24,19 +24,19 @@ const PeriodicitySelector = (props: PeriodicitySelectorProps) => {
 	}
 
 	return (
-		<label className={clsx(s['periodicity-selector'])}>
+		<label className={clsx(s['schedule-type-selector'])}>
 			<input
 				className={clsx(s['radio'])}
 				type='radio'
-				name='periodicity-selector'
+				name='schedule-type-selector'
 				checked={checked}
 				onChange={handleSelect}
 			/>
 			<div className={clsx(s['selector-box'])}>
-				<span>{props.title}</span>
+				<span className={clsx(s['label'])}>{props.title}</span>
 			</div>
 		</label>
 	);
 };
 
-export default PeriodicitySelector;
+export default ScheduleTypeSelector;

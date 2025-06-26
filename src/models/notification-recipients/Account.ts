@@ -1,29 +1,29 @@
-import { BaseEntity, EntityType } from './BaseEntity';
+import { BaseEntity, ERecipientType } from './BaseEntity';
 
-export class Person extends BaseEntity {
-	type = EntityType.PERSON;
+export class Account extends BaseEntity {
+	type = ERecipientType.ACCOUNT;
 	canBeExpanded = false;
 
-	personId: number;
+	accountId: string;
 	firstName: string;
 	middleName: string;
 	lastName: string;
 
 	constructor(
-		personId: number,
+		accountId: string,
 		firstName: string,
 		middleName: string,
 		lastName: string
 	) {
 		super();
-		this.personId = personId;
+		this.accountId = accountId;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 	}
 
-	getId(): number {
-		return this.personId;
+	getId(): string {
+		return this.accountId;
 	}
 
 	getName(): string {

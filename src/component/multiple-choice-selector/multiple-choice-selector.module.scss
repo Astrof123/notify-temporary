@@ -1,0 +1,33 @@
+:root {
+	--multiple-items-count: 3;
+	--slider-gap: 8px;
+}
+
+.multiple-choice-selector-container {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--slider-gap);
+}
+
+.item {
+	padding: 4px 16px;
+	box-sizing: border-box;
+
+	display: inline-flex;
+	justify-content: center;
+
+	border-radius: 10px;
+	border: 1px solid var(--contrast-color);
+	cursor: pointer;
+}
+
+.item.fill {
+	width: calc(100% / var(--multiple-items-count) - var(--slider-gap));
+}
+
+.item.chosen {
+	border: 1px solid var(--main-color);
+	background-color: var(--main-color);
+	color: white;
+}

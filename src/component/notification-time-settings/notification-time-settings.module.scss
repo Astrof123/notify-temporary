@@ -3,13 +3,44 @@
 	overflow: unset;
 }
 
-.periodicities-box {
+// .schedule-types-box {
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	gap: 10px;
+// }
+
+// .datetime-pickers {
+// 	display: flex;
+// 	column-gap: 20px;
+// }
+
+.schedule-types-container {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
+	column-gap: 32px;
 }
 
-.datetime-pickers {
+.schedule-types-list {
+	width: 25%;
+
 	display: flex;
-	column-gap: 20px;
+	flex-direction: column;
+	row-gap: 8px;
+}
+
+.settings-content {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	align-items: stretch;
+	row-gap: 16px;
+}
+
+.settings-content > .row {
+	display: flex;
+	column-gap: 16px;
+	align-items: flex-start;
+}
+
+.days-of-month-box {
+	max-width: 500px;
 }

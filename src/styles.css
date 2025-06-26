@@ -1,8 +1,15 @@
+body,
+input,
+select,
+textarea,
+button {
+	font-family: 'Geologica', 'Helvetica Neue', 'Arial', sans-serif;
+}
+
 .container {
 	width: 100%;
 	max-width: 80%;
 	margin: 0 auto;
-	font-family: 'Geologica', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 button {

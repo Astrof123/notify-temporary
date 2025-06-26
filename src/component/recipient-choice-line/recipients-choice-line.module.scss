@@ -1,10 +1,10 @@
-.target-line-container {
+.recipient-line-container {
 	display: flex;
 	flex-direction: column;
 	row-gap: 10px;
 }
 
-.target-line-container.hidden {
+.recipient-line-container.hidden {
 	display: none;
 }
 

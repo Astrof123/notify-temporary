@@ -1,27 +1,23 @@
 import clsx from 'clsx';
-import s from './datetime-picker.module.scss';
+import s from './date-picker.module.scss';
 import '../../styles.css';
 import { useState, useRef, useEffect } from 'react';
-import { Time } from '../../models/notification-time/Time';
 import CloseButton from '../close-button';
 import calendar from '../../images/calendar.svg';
-import ArrowButton from '../arrow-button';
+import InstrumentButton from '../instrument-button';
 import CalendarDisplay from '../calendar-display';
-import TimeDisplay from '../time-display';
 import { monthYearLabel } from '../../utils/funcs';
 
-const DatetimePicker = () => {
-	const datetimeInputRef = useRef<HTMLDivElement>(null);
-	const datetimePickerRef = useRef<HTMLDivElement>(null);
+const DatePicker = () => {
+	const dateInputRef = useRef<HTMLDivElement>(null);
+	const datePickerRef = useRef<HTMLDivElement>(null);
 
 	const [dateDisplay, setDateDisplay] = useState<Date>(new Date());
 	const [date, setDate] = useState<Date>();
-	const [time, setTime] = useState<Time>(new Time(0, 0));
 	const [focused, setFocused] = useState(false);
 
 	function resetData() {
 		setDate(undefined);
-		setTime(new Time(0, 0));
 		const d = new Date();
 		d.setDate(1);
 		setDateDisplay(d);
@@ -31,10 +27,10 @@ const DatetimePicker = () => {
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
-				datetimeInputRef.current &&
-				!datetimeInputRef.current.contains(event.target as Node) &&
-				datetimePickerRef.current &&
-				!datetimePickerRef.current.contains(event.target as Node)
+				dateInputRef.current &&
+				!dateInputRef.current.contains(event.target as Node) &&
+				datePickerRef.current &&
+				!datePickerRef.current.contains(event.target as Node)
 			) {
 				setFocused(false);
 			}
@@ -46,10 +42,6 @@ const DatetimePicker = () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, []);
-
-	function isEmpty() {
-		return !date && time.hour === 0 && time.minute === 0;
-	}
 
 	function formatDate(date?: Date) {
 		if (date) {
@@ -64,9 +56,7 @@ const DatetimePicker = () => {
 	}
 
 	function getInputText() {
-		return isEmpty()
-			? 'Дата и время'
-			: `${formatDate(date)} ${time.toString()}`;
+		return !date ? 'Дата' : formatDate(date);
 	}
 
 	function leafMonths(isNext: boolean) {
@@ -93,14 +83,14 @@ const DatetimePicker = () => {
 	}
 
 	return (
-		<div className={clsx(s['datetime-picker-container'])}>
+		<div className={clsx(s['date-picker-container'])}>
 			<div
-				className={clsx(s['datetime-input'], date && s['filled'])}
+				className={clsx(s['date-input'], date && s['filled'])}
 				tabIndex={0}
 				role='button'
 				onClick={handleInputClick}
 				onKeyDown={handleInputKeyDown}
-				ref={datetimeInputRef}>
+				ref={dateInputRef}>
 				<span className={clsx(s['input-text'])}>{getInputText()}</span>
 				<div className={clsx(s['left-box'])}>
 					{date && <CloseButton onClick={resetData} />}
@@ -108,14 +98,20 @@ const DatetimePicker = () => {
 				</div>
 			</div>
 			{focused && (
-				<div className={clsx(s['datetime-picker'])} ref={datetimePickerRef}>
+				<div className={clsx(s['date-picker'])} ref={datePickerRef}>
 					<div className={clsx(s['calendar-box'])}>
 						<div className={clsx(s['calendar-header'])}>
-							<ArrowButton isRight={false} onClick={() => leafMonths(false)} />
+							<InstrumentButton
+								type={'left-arrow'}
+								onClick={() => leafMonths(false)}
+							/>
 							<span className={clsx(s['month-year'])}>
 								{monthYearLabel(dateDisplay)}
 							</span>
-							<ArrowButton isRight={true} onClick={() => leafMonths(true)} />
+							<InstrumentButton
+								type={'right-arrow'}
+								onClick={() => leafMonths(true)}
+							/>
 						</div>
 						<CalendarDisplay
 							date={dateDisplay}
@@ -124,13 +120,10 @@ const DatetimePicker = () => {
 							onDateClick={handleCellClick}
 						/>
 					</div>
-					<div className={clsx(s['time-display-box'])}>
-						<TimeDisplay time={time} itemsToShow={5} onChange={setTime} />
-					</div>
 				</div>
 			)}
 		</div>
 	);
 };
 
-export default DatetimePicker;
+export default DatePicker;

@@ -1,7 +1,7 @@
-import { Person } from './Person';
+import { Account } from './Account';
 import { Department } from './Department';
 
 export interface Expanding {
 	departments: Department[];
-	persons: Person[];
+	accounts: Account[];
 }

@@ -1,16 +1,18 @@
-label.periodicity-selector {
+label.schedule-type-selector {
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
 }
 
-.periodicity-selector > input.radio {
+.schedule-type-selector > input.radio {
 	display: none;
 }
 
-.periodicity-selector > input.radio + .selector-box {
-	display: inline-flex;
+.schedule-type-selector > input.radio + .selector-box {
+	width: 100%;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
@@ -21,7 +23,12 @@ label.periodicity-selector {
 	border-radius: 20px;
 }
 
-.periodicity-selector > input.radio:checked + .selector-box {
+.schedule-type-selector > input.radio:checked + .selector-box {
 	display: inline-flex;
 	background-color: #f04923;
+}
+
+span.label {
+	width: 100%;
+	text-align: center;
 }

@@ -1,26 +1,22 @@
 import clsx from 'clsx';
-import s from './datetime-period-picker.module.scss';
+import s from './date-period-picker.module.scss';
 import '../../styles.css';
 import calendar from '../../images/calendar.svg';
 import { useEffect, useRef, useState } from 'react';
-import ArrowButton from '../arrow-button';
+import InstrumentButton from '../instrument-button';
 import CalendarDisplay from '../calendar-display';
 import CloseButton from '../close-button';
-import TimeDisplay from '../time-display';
-import { Time } from '../../models/notification-time/Time';
 import { formatDate, monthYearLabel } from '../../utils/funcs';
 
-const DatetimePeriodPicker = () => {
-	const datetimeInputRef = useRef<HTMLDivElement>(null);
-	const datetimePickerRef = useRef<HTMLDivElement>(null);
+const DatePeriodPicker = () => {
+	const dateInputRef = useRef<HTMLDivElement>(null);
+	const datePickerRef = useRef<HTMLDivElement>(null);
 
 	const [startDate, setStartDate] = useState<Date>();
 	const [hoverDate, setHoverDate] = useState<Date>();
 	const [endDate, setEndDate] = useState<Date>();
 	const [leftDate, setLeftDate] = useState<Date>(new Date());
 	const [rightDate, setRightDate] = useState<Date>(new Date());
-	const [startTime, setStartTime] = useState<Time>(new Time(0, 0));
-	const [endTime, setEndTime] = useState<Time>(new Time(0, 0));
 
 	const [focused, setFocused] = useState(false);
 
@@ -37,22 +33,19 @@ const DatetimePeriodPicker = () => {
 		setHoverDate(undefined);
 		setEndDate(undefined);
 		setFocused(false);
-		setStartTime(new Time(0, 0));
-		setEndTime(new Time(0, 0));
 	}
 
 	useEffect(() => {
 		setDisplayDates(startDate ? startDate : new Date());
-		console.log(startDate, endDate);
 	}, [focused]);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
-				datetimeInputRef.current &&
-				!datetimeInputRef.current.contains(event.target as Node) &&
-				datetimePickerRef.current &&
-				!datetimePickerRef.current.contains(event.target as Node)
+				dateInputRef.current &&
+				!dateInputRef.current.contains(event.target as Node) &&
+				datePickerRef.current &&
+				!datePickerRef.current.contains(event.target as Node)
 			) {
 				setFocused(false);
 			}
@@ -66,12 +59,12 @@ const DatetimePeriodPicker = () => {
 	}, []);
 
 	function getInputText() {
-		if (!focused && !startDate && !endDate) {
-			return 'Период';
+		if (!startDate && !endDate) {
+			return focused ? '' : 'Период';
+		} else if (startDate && !endDate) {
+			return `${formatDate(startDate)} -`;
 		} else {
-			return `${formatDate(startDate)} ${startTime.toString()} - ${formatDate(
-				endDate
-			)} ${endTime.toString()}`;
+			return `${formatDate(startDate)} - ${formatDate(endDate)}`;
 		}
 	}
 
@@ -101,6 +94,7 @@ const DatetimePeriodPicker = () => {
 		} else if (!endDate && hoverDate) {
 			setEndDate(date);
 			setHoverDate(undefined);
+			setFocused(false);
 		} else {
 			setStartDate(date);
 			setEndDate(undefined);
@@ -112,17 +106,14 @@ const DatetimePeriodPicker = () => {
 	}
 
 	return (
-		<div className={clsx(s['datetime-period-picker-container'])}>
+		<div className={clsx(s['date-period-picker-container'])}>
 			<div
-				className={clsx(
-					s['datetime-input'],
-					(startDate || endDate) && s['filled']
-				)}
+				className={clsx(s['date-input'], (startDate || endDate) && s['filled'])}
 				tabIndex={0}
 				role='button'
 				onClick={handleInputClick}
 				onKeyDown={handleInputKeyDown}
-				ref={datetimeInputRef}>
+				ref={dateInputRef}>
 				<span className={clsx(s['input-text'])}>{getInputText()}</span>
 				<div className={clsx(s['left-box'])}>
 					{(startDate || endDate) && <CloseButton onClick={resetData} />}
@@ -130,14 +121,12 @@ const DatetimePeriodPicker = () => {
 				</div>
 			</div>
 			{focused && (
-				<div
-					className={clsx(s['datetime-period-picker'])}
-					ref={datetimePickerRef}>
+				<div className={clsx(s['date-period-picker'])} ref={datePickerRef}>
 					<div className={clsx(s['calendars-box'])}>
 						<div className={clsx(s['calendar'])}>
 							<div className={clsx(s['calendar-header'], s['left'])}>
-								<ArrowButton
-									isRight={false}
+								<InstrumentButton
+									type={'left-arrow'}
 									onClick={() => leafMonths(false)}
 								/>
 								<span className={clsx(s['month-year'])}>
@@ -159,7 +148,10 @@ const DatetimePeriodPicker = () => {
 								<span className={clsx(s['month-year'])}>
 									{monthYearLabel(rightDate)}
 								</span>
-								<ArrowButton isRight={true} onClick={() => leafMonths(true)} />
+								<InstrumentButton
+									type={'right-arrow'}
+									onClick={() => leafMonths(true)}
+								/>
 							</div>
 							<CalendarDisplay
 								date={rightDate}
@@ -172,26 +164,10 @@ const DatetimePeriodPicker = () => {
 							/>
 						</div>
 					</div>
-					<div className={clsx(s['time-displays-box'])}>
-						<div className={clsx(s['time-display-wrapper'])}>
-							<TimeDisplay
-								time={startTime}
-								itemsToShow={3}
-								onChange={setStartTime}
-							/>
-						</div>
-						<div className={clsx(s['time-display-wrapper'])}>
-							<TimeDisplay
-								time={endTime}
-								itemsToShow={3}
-								onChange={setEndTime}
-							/>
-						</div>
-					</div>
 				</div>
 			)}
 		</div>
 	);
 };
 
-export default DatetimePeriodPicker;
+export default DatePeriodPicker;

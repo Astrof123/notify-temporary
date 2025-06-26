@@ -1,22 +1,22 @@
 import clsx from 'clsx';
-import s from './targets-choice-line.module.scss';
+import s from './recipients-choice-line.module.scss';
 import '../../styles.css';
 import { useEffect, useState } from 'react';
-import { Company } from '../../models/notification-targets/Company';
-import { Department } from '../../models/notification-targets/Department';
-import { Person } from '../../models/notification-targets/Person';
-import { Expanding } from '../../models/notification-targets/Expanding';
-import { BaseEntity } from '../../models/notification-targets/BaseEntity';
+import { Company } from '../../models/notification-recipients/Company';
+import { Department } from '../../models/notification-recipients/Department';
+import { Account } from '../../models/notification-recipients/Account';
+import { Expanding } from '../../models/notification-recipients/Expanding';
+import { BaseEntity } from '../../models/notification-recipients/BaseEntity';
 import CheckboxWithLabel from '../checkbox-with-label';
 
-interface TargetsChoiceLineProps {
-	data: Company | Department | Person;
+interface RecipientsChoiceLineProps {
+	data: Company | Department | Account;
 	disabled: boolean;
 	hidden?: boolean;
 	onChoose: (arg1: boolean, arg2: BaseEntity) => void;
 }
 
-const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
+const RecipientsChoiceLine = (props: RecipientsChoiceLineProps) => {
 	const [expanded, setExpanded] = useState(false);
 	const [checked, setChecked] = useState(false);
 
@@ -38,7 +38,10 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 
 	return (
 		<div
-			className={clsx(s['target-line-container'], props.hidden && s['hidden'])}>
+			className={clsx(
+				s['recipient-line-container'],
+				props.hidden && s['hidden']
+			)}>
 			<div className={clsx(s['parent-box'])}>
 				{!props.data.isPerson() && (
 					<div
@@ -63,7 +66,7 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 						<>
 							{(props.data as Expanding).departments.map(
 								(department, index) => (
-									<TargetsChoiceLine
+									<RecipientsChoiceLine
 										key={index}
 										data={department}
 										disabled={checked || props.disabled}
@@ -71,8 +74,8 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 									/>
 								)
 							)}
-							{(props.data as Expanding).persons.map((person, index) => (
-								<TargetsChoiceLine
+							{(props.data as Expanding).accounts.map((person, index) => (
+								<RecipientsChoiceLine
 									key={index}
 									data={person}
 									disabled={checked || props.disabled}
@@ -91,4 +94,4 @@ const TargetsChoiceLine = (props: TargetsChoiceLineProps) => {
 	);
 };
 
-export default TargetsChoiceLine;
+export default RecipientsChoiceLine;
